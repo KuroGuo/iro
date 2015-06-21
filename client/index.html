@@ -105,6 +105,15 @@
       color: black;
     }
 
+    #loading {
+      text-align: center;
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 30%;
+      font-size: 40px;
+    }
+
     @-webkit-keyframes leave {
       from {
         opacity: 1;
@@ -133,7 +142,7 @@
   </style>
 </head>
 <body>
-  <p v-if="!loaded">载入中</p>
+  <p id="loading" v-if="!loaded">载入中</p>
   <div id="app" style="display: none;" v-show="loaded">
     <h2 id="scores">{{teams.a.score}} : {{teams.b.score}}</h2>
     <div id="line"><span id="flag" v-style="
