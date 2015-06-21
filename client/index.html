@@ -97,6 +97,14 @@
               animation: leave .6s both;
     }
 
+    #github {
+      position: fixed;
+      right: 10px;
+      bottom: 10px;
+      font-size: 20px;
+      color: black;
+    }
+
     @-webkit-keyframes leave {
       from {
         opacity: 1;
@@ -138,6 +146,7 @@
       transform: 'translateX(50%) scale(' + (1 + teams.b.power / 100) + ')'
     "></div>
   </div>
+  <a id="github" href="https://github.com/KuroGuo/tug-of-war">github</a>
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="/vue.js"></script>
