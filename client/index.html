@@ -150,10 +150,10 @@
       left: (50 + (teams.b.score - teams.a.score) / 20) + '%'
     "></span></div>
     <div id="team_a" v-el="team_a" v-on="mousedown: tug('a'), touchstart: tug('a')" v-style="
-      transform: 'translateX(-50%) scale(' + (1 + teams.a.power / 50) + ')'
+      transform: 'translateX(-50%) scale(' + (1 + teams.a.power / 20) + ')'
     "></div>
     <div id="team_b" v-el="team_b" v-on="mousedown: tug('b'), touchstart: tug('b')" v-style="
-      transform: 'translateX(50%) scale(' + (1 + teams.b.power / 50) + ')'
+      transform: 'translateX(50%) scale(' + (1 + teams.b.power / 20) + ')'
     "></div>
   </div>
   <a id="github" href="https://github.com/KuroGuo/tug-of-war" target="_blank" title="Kuro 是个热爱交朋友的人，加我 QQ 吧：413298956">github</a>
