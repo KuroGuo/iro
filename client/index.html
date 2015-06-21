@@ -147,7 +147,7 @@
   <div id="app" style="display: none;" v-show="loaded">
     <h2 id="scores">{{teams.a.score}} : {{teams.b.score}}</h2>
     <div id="line"><span id="flag" v-style="
-      left: (50 + (teams.b.score - teams.a.score) / 100) + '%'
+      left: (50 + (teams.b.score - teams.a.score) / 20) + '%'
     "></span></div>
     <div id="team_a" v-el="team_a" v-on="mousedown: tug('a'), touchstart: tug('a')" v-style="
       transform: 'translateX(-50%) scale(' + (1 + teams.a.power / 100) + ')'
