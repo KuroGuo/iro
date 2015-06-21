@@ -133,8 +133,8 @@
   </style>
 </head>
 <body>
+  <p v-if="!loaded">载入中</p>
   <div id="app" style="display: none;" v-show="loaded">
-    <p v-if="!loaded">载入中</p>
     <h2 id="scores">{{teams.a.score}} : {{teams.b.score}}</h2>
     <div id="line"><span id="flag" v-style="
       transform: 'translateX(' + (teams.b.score - teams.a.score) + 'px)'
