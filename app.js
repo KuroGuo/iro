@@ -23,6 +23,8 @@ var data = {
   }
 }
 
+var updateTimeoutId
+
 io.on('connection', function (socket) {
   socket.emit('update', data)
 
@@ -45,7 +47,13 @@ io.on('connection', function (socket) {
         data.teams.b.power = 0
       }
 
-      io.emit('update', data)
+      if (updateTimeoutId)
+        return
+
+      updateTimeoutId = setTimeout(function () {
+        updateTimeoutId = null
+        io.emit('update', data)
+      }, 16)
     }, 16)
   })
 })
