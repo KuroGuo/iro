@@ -1,0 +1,14 @@
+{
+  "name": "tug-of-war",
+  "version": "1.0.0",
+  "main": "app.js",
+  "author": "Kuro",
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "express": "^4.12.4",
+    "socket.io": "^1.3.5",
+    "vue": "^0.12.1"
+  }
+}

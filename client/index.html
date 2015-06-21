@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Tug Of War</title>
+  <style>
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: "Microsoft YaHei Light","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,"Lantinghei SC","Hiragino Sans GB","WenQuanYi Micro Hei",sans-serif;
+      text-rendering: geometricPrecision;
+      margin: 0;
+    }
+
+    #app {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+    }
+
+    #line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      width: 62%;
+      height: 2px;
+      background-color: black;
+    }
+
+    #flag {
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 30px solid black;
+      border-bottom: 30px solid transparent;
+    }
+
+    #team_a, #team_b {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: 100%;
+      background-color: black;
+      top: 0;
+      bottom: 0;
+      margin: auto 0;
+      transition: all .6s;
+    }
+    #team_a {
+      left: 19%;
+    }
+    #team_b {
+      right: 19%;
+    }
+
+    #scores {
+      text-align: center;
+      font-size: 72px;
+      font-weight: normal;
+      font-family: Menlo, Monaco, Consolas, monospace;
+      margin: 0;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 20%;
+    }
+
+    @media screen and (max-width: 768px) {
+      #scores {
+        font-size: 30px;
+      }
+    }
+
+    .tip {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -1.2em;
+      text-align: center;
+      -webkit-animation: leave .6s both;
+              animation: leave .6s both;
+    }
+
+    @-webkit-keyframes leave {
+      from {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+                transform: translateY(0);
+      }
+      to {
+        opacity: 0;
+        -webkit-transform: translateY(-10px);
+                transform: translateY(-10px);
+      }
+    }
+
+    @keyframes leave {
+      from {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+                transform: translateY(0);
+      }
+      to {
+        opacity: 0;
+        -webkit-transform: translateY(-10px);
+                transform: translateY(-10px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="app" style="display: none;" v-show="loaded">
+    <p v-if="!loaded">载入中</p>
+    <h2 id="scores">{{teams.a.score}} : {{teams.b.score}}</h2>
+    <div id="line"><span id="flag" v-style="
+      transform: 'translateX(' + (teams.b.score - teams.a.score) + 'px)'
+    "></span></div>
+    <div id="team_a" v-el="team_a" v-on="mousedown: tug('a'), touchstart: tug('a')" v-style="
+      transform: 'translateX(-50%) scale(' + (1 + teams.a.power / 100) + ')'
+    "></div>
+    <div id="team_b" v-el="team_b" v-on="mousedown: tug('b'), touchstart: tug('b')" v-style="
+      transform: 'translateX(50%) scale(' + (1 + teams.b.power / 100) + ')'
+    "></div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/vue.js"></script>
+  <script>
+    var socket = io()
+
+    var app = new Vue({
+      el: '#app',
+      data: {
+        loaded: false,
+        myTeam: null,
+        teams: {
+          a: { score: null, power: null },
+          b: { score: null, power: null }
+        }
+      },
+      ready: function () {
+        document.addEventListener('keydown', function (e) {
+          this.tug(this.myTeam)
+        }.bind(this))
+        document.addEventListener('mousedown', this.preventDefault)
+        document.addEventListener('touchstart', this.preventDefault)
+
+        socket.on('update', this.update)
+      },
+      methods: {
+        preventDefault: function (e) {
+          e.preventDefault()
+        },
+        tug: function (team) {
+          this.myTeam = team
+          socket.emit('tug', this.myTeam)
+
+          var tip = document.createElement('span')
+          tip.classList.add('tip')
+          tip.innerHTML = '+1'
+
+          this.$$['team_' + team].appendChild(tip)
+
+          setTimeout(function () {
+            this.$$['team_' + team].removeChild(tip)
+          }.bind(this), 1000)
+        },
+        update: function (data) {
+          if (!this.loaded)
+            this.loaded = true
+
+          this.teams.a.score = data.teams.a.score
+          this.teams.a.power = data.teams.a.power
+          this.teams.b.score = data.teams.b.score
+          this.teams.b.power = data.teams.b.power
+        }
+      }
+    })
+  </script>
+</body>
+</html>
