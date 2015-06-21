@@ -59,4 +59,4 @@ setInterval(function () {
   lastScoreB = data.teams.b.score
 }, 1000)
 
-http.listen(80)
+http.listen(1338)
