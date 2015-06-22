@@ -249,14 +249,14 @@
     <div id="line"><span id="flag" v-style="
       left: (50 + (teams.b.score - teams.a.score) / 20) + '%'
     "></span></div>
-    <div id="team_a" v-el="team_a" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('a'), touchstart: tug('a'), click: tug('a')" v-style="
+    <div id="team_a" v-el="team_a" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('a', 'mousedown'), touchstart: tug('a', 'touchstart'), click: tug('a', 'click')" v-style="
       transform: 'translateX(-50%) scale(' + (1 + teams.a.power / 20) / 3 + ')',
       background-image: 'url(' + teams.a.image + ')',
       background-color: teams.a.image ? 'transparent' : 'black'
     ">
       <div id="tucao_area_a" v-el="tucao_area_a" class="tucao-area"></div>
     </div>
-    <div id="team_b" v-el="team_b" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('b'), touchstart: tug('b'), click: tug('b')" v-style="
+    <div id="team_b" v-el="team_b" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('b', 'mousedown'), touchstart: tug('b', 'touchstart'), click: tug('b', click)" v-style="
       transform: 'translateX(50%) scale(' + (1 + teams.b.power / 20) / 3 + ')',
       background-image: 'url(' + teams.b.image + ')',
       background-color: teams.b.image ? 'white' : 'black'
@@ -325,11 +325,11 @@
         stopPropagation: function (e) {
           e.stopPropagation()
         },
-        tug: function (team) {
+        tug: function (team, event) {
           if (!this.teams[team])
             return
 
-          if (!this.teams[team].image) {
+          if (event !== 'mousedown' && !this.teams[team].image) {
             var input = document.createElement('input')
             input.type = 'file'
             input.accept = 'image/*'
