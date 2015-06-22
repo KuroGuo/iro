@@ -46,7 +46,7 @@ app.put('/teams/:name/image', function (req, res, next) {
     var imageSrc = '/upload/' + md5.digest('hex') + imageFile.name.substring(imageFile.name.lastIndexOf('.'))
     fs.rename(imageFile.path, __dirname + imageSrc, function (err) {
       if (err)
-        next(err)
+        return next(err)
       res.status(201).end()
       if (image[name].indexOf(imageSrc) === -1)
         image[name].push(imageSrc)
@@ -154,8 +154,8 @@ function processImage() {
       processImage()
       return
     }
-    data.teams.a.image = image.a[parseInt(Math.random()*image.a.length)]
-    data.teams.b.image = image.b[parseInt(Math.random()*image.b.length)]
+    data.teams.a.image = image.a[parseInt(Math.random() * image.a.length)]
+    data.teams.b.image = image.b[parseInt(Math.random() * image.b.length)]
     data.allowUpload = false
     image.a = []
     image.b = []
