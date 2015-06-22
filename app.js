@@ -95,7 +95,7 @@ io.on('connection', function (socket) {
   })
 
   socket.on('tucao', function (team, content) {
-    if (!content || content.length > 150)
+    if (!content || content.length > 20)
       return
     io.emit('tucao', team, content)
   })

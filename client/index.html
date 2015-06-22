@@ -368,7 +368,7 @@
 
           var value = input.value
 
-          if (!value || value.lenght > 150)
+          if (!value || value.lenght > 20)
             return
 
           socket.emit('tucao', 'a', value)
@@ -382,7 +382,7 @@
 
           var value = input.value
 
-          if (!value || value.length > 150)
+          if (!value || value.length > 20)
             return
 
           socket.emit('tucao', 'b', value)
