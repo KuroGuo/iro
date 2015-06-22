@@ -285,7 +285,26 @@
       },
       ready: function () {
         document.addEventListener('keydown', function (e) {
+          if (e.target.tagName === 'INPUT')
+            return
+
           this.tug(this.myTeam)
+        }.bind(this))
+
+        document.addEventListener('mousedown', function (e) {
+          if (e.target.tagName === 'INPUT')
+            return
+
+          this.$$.textbox_a.blur()
+          this.$$.textbox_b.blur()
+        }.bind(this))
+
+        document.addEventListener('touchstart', function (e) {
+          if (e.target.tagName === 'INPUT')
+            return
+          
+          this.$$.textbox_a.blur()
+          this.$$.textbox_b.blur()
         }.bind(this))
 
         socket.on('update', this.update)
