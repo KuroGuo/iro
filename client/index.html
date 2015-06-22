@@ -173,6 +173,12 @@
               animation: height-enter .2s both;
     }
 
+    #onlines {
+      position: fixed;
+      right: 10px;
+      top: 10px;
+    }
+
     @-webkit-keyframes leave {
       from {
         opacity: 1;
@@ -265,6 +271,7 @@
     </form>
   </div>
   <a id="github" href="https://github.com/KuroGuo/tug-of-war" target="_blank" title="Kuro 是个热爱交朋友的人，加我 QQ 吧：413298956">github</a>
+  <div id="onlines">{{onlines}} 人在线</div>
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="/vue.js"></script>
@@ -278,6 +285,7 @@
       data: {
         loaded: false,
         myTeam: null,
+        onlines: null,
         teams: {
           a: { score: null, power: null, image: null },
           b: { score: null, power: null, image: null }
@@ -403,6 +411,8 @@
           this.teams.b.score = data.teams.b.score
           this.teams.b.power = data.teams.b.power
           this.teams.b.image = data.teams.b.image
+
+          this.onlines = data.onlines
         }
       }
     })

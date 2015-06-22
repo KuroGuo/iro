@@ -49,6 +49,7 @@ app.use(function (req, res, next) {
 })
 
 var data = {
+  onlines: 0,
   teams: {
     a: { score: 0, power: 0, image: null },
     b: { score: 0, power: 0, image: null }
@@ -58,6 +59,8 @@ var data = {
 var updateTimeoutId
 
 io.on('connection', function (socket) {
+  data.onlines += 1
+
   socket.emit('update', data)
 
   var timeoutId
@@ -95,6 +98,10 @@ io.on('connection', function (socket) {
     if (!content)
       return
     io.emit('tucao', team, content)
+  })
+
+  socket.on('disconnect', function () {
+    data.onlines -= 1
   })
 })
 
