@@ -5,6 +5,7 @@ var http = require('http').Server(app)
 var io = require('socket.io')(http)
 var fs = require('fs')
 var crypto = require('crypto')
+var path = require('path')
 
 app.use(express.static('client'))
 app.use('/upload', express.static('upload'))
@@ -43,7 +44,7 @@ app.put('/teams/:name/image', function (req, res, next) {
     md5.update(d)
   })
   s.on('end', function () {
-    var imageSrc = '/upload/' + md5.digest('hex') + imageFile.name.substring(imageFile.name.lastIndexOf('.'))
+    var imageSrc = '/upload/' + md5.digest('hex') + path.extname(imageFile.name)
     fs.rename(imageFile.path, __dirname + imageSrc, function (err) {
       if (err)
         return next(err)
