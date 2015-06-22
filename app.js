@@ -40,7 +40,7 @@ io.on('connection', function (socket) {
       if (data.teams[team])
         data.teams[team].score += 1
 
-      if (Math.abs(data.teams.a.score - data.teams.b.score) > 200) {
+      if (Math.abs(data.teams.a.score - data.teams.b.score) > 100) {
         data.teams.a.score = 0
         data.teams.a.power = 0
         data.teams.b.score = 0
