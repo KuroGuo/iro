@@ -63,14 +63,14 @@ io.on('connection', function (socket) {
 
   socket.emit('update', data)
 
-  var timeoutId
+  var tugTimeoutId
 
   socket.on('tug', function (team) {
-    if (timeoutId)
+    if (tugTimeoutId)
       return
 
-    timeoutId = setTimeout(function () {
-      timeoutId = null
+    tugTimeoutId = setTimeout(function () {
+      tugTimeoutId = null
 
       if (data.teams[team])
         data.teams[team].score += 1
@@ -94,10 +94,17 @@ io.on('connection', function (socket) {
     }, 16)
   })
 
+  var tucaoTimeoutId
+
   socket.on('tucao', function (team, content) {
-    if (!content || content.length > 20)
+    if (tucaoTimeoutId || !content || content.length > 20)
       return
-    io.emit('tucao', team, content)
+
+    tucaoTimeoutId = setTimeout(function () {
+      tucaoTimeoutId = null
+      
+      io.emit('tucao', team, content)
+    }, 16)
   })
 
   socket.on('disconnect', function () {
