@@ -247,14 +247,14 @@
     <div id="line"><span id="flag" v-style="
       left: (50 + (teams.b.score - teams.a.score) / 20) + '%'
     "></span></div>
-    <div id="team_a" v-el="team_a" v-on="mousedown: tug('a'), touchstart: tug('a')" v-style="
+    <div id="team_a" v-el="team_a" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('a'), touchstart: tug('a')" v-style="
       transform: 'translateX(-50%) scale(' + (1 + teams.a.power / 20) / 3 + ')',
       background-image: 'url(' + teams.a.image + ')',
       background-color: teams.a.image ? 'transparent' : 'black'
     ">
       <div id="tucao_area_a" v-el="tucao_area_a" class="tucao-area"></div>
     </div>
-    <div id="team_b" v-el="team_b" v-on="mousedown: tug('b'), touchstart: tug('b')" v-style="
+    <div id="team_b" v-el="team_b" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('b'), touchstart: tug('b')" v-style="
       transform: 'translateX(50%) scale(' + (1 + teams.b.power / 20) / 3 + ')',
       background-image: 'url(' + teams.b.image + ')',
       background-color: teams.b.image ? 'white' : 'black'
@@ -262,10 +262,10 @@
       <div id="tucao_area_b" v-el="tucao_area_b" class="tucao-area"></div>
     </div>
     <form v-on="submit: tucaoA" id="form_tucao_a">
-      <input id="textbox_a" v-el="textbox_a" type="text" placeholder="吐槽" class="textbox-tucao" required="required" v-on="mousedown: stopPropagation, touchstart: stopPropagation">
+      <input id="textbox_a" v-el="textbox_a" type="text" placeholder="吐槽" class="textbox-tucao" required="required">
     </form>
     <form v-on="submit: tucaoB" id="form_tucao_b">
-      <input id="textbox_b" v-el="textbox_b" type="text" placeholder="吐槽" class="textbox-tucao" required="required" v-on="mousedown: stopPropagation, touchstart: stopPropagation">
+      <input id="textbox_b" v-el="textbox_b" type="text" placeholder="吐槽" class="textbox-tucao" required="required">
     </form>
   </div>
   <a id="github" href="https://github.com/KuroGuo/tug-of-war" target="_blank" title="Kuro 是个热爱交朋友的人，加我 QQ 吧：413298956">github</a>
@@ -291,8 +291,6 @@
         document.addEventListener('keydown', function (e) {
           this.tug(this.myTeam)
         }.bind(this))
-        document.addEventListener('mousedown', this.preventDefault)
-        document.addEventListener('touchstart', this.preventDefault)
 
         socket.on('update', this.update)
         socket.on('tucao', this.onTucao)
