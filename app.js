@@ -149,15 +149,23 @@ var image = {
 
 function processImage() {
   setTimeout(function () {
-    if(!image.a.length || !image.b.length) {
-      processImage()
-      return
-    }
-    data.teams.a.image = image.a[Math.floor(Math.random() * image.a.length)]
-    data.teams.b.image = image.b[Math.floor(Math.random() * image.b.length)]
+    if(!image.a.length || !image.b.length)
+      return processImage()
+
+    var imageA = image.a[Math.floor(Math.random() * image.a.length)]
+    var imageB = image.b[Math.floor(Math.random() * image.b.length)]
+
+    if (imageA === imageB)
+      return processImage()
+
+    data.teams.a.image = imageA
+    data.teams.b.image = imageB
+
     data.allowUpload = false
+
     image.a = []
     image.b = []
+    
     io.emit('update', data)
   },10000)
 }
