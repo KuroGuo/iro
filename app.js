@@ -157,8 +157,8 @@ function processImage() {
       processImage()
       return
     }
-    data.teams.a.image = image.a[parseInt(Math.random() * image.a.length)]
-    data.teams.b.image = image.b[parseInt(Math.random() * image.b.length)]
+    data.teams.a.image = image.a[Math.floor(Math.random() * image.a.length)]
+    data.teams.b.image = image.b[Math.floor(Math.random() * image.b.length)]
     data.allowUpload = false
     image.a = []
     image.b = []
