@@ -4,6 +4,7 @@ var multer = require('multer')
 var http = require('http').Server(app)
 var io = require('socket.io')(http)
 var fs = require('fs')
+var crypto = require('crypto')
 
 app.use(express.static('client'))
 app.use('/upload', express.static('upload'))
@@ -20,10 +21,11 @@ app.get('/vue.js', function (req, res, next) {
 app.put('/teams/:name/image', function (req, res, next) {
   var name = req.params.name
 
-  if (!req.files)
+  if (!data.allowUpload)
     return res.status(400).end()
 
-  var imageFile = req.files.image
+  if (!req.files)
+    return res.status(400).end()
 
   var team = data.teams[name]
 
@@ -33,14 +35,22 @@ app.put('/teams/:name/image', function (req, res, next) {
   if (team.image)
     return res.status(400).end()
 
-  var imageSrc = '/upload/' + imageFile.name
+  var imageFile = req.files.image
 
-  fs.rename(imageFile.path, __dirname + imageSrc, function (err) {
-    if (err)
-      return next(err)
-    res.status(201).end()
-    team.image = imageSrc
-    io.emit('update', data)
+  var md5 = crypto.createHash('md5')
+  var s = fs.ReadStream(imageFile.path)
+  s.on('data', function (d) {
+    md5.update(d)
+  })
+  s.on('end', function () {
+    var imageSrc = '/upload/' + md5.digest('hex') + imageFile.name.substring(imageFile.name.lastIndexOf('.'))
+    fs.rename(imageFile.path, __dirname + imageSrc, function (err) {
+      if (err)
+        next(err)
+      res.status(201).end()
+      if (image[name].indexOf(imageSrc) === -1)
+        image[name].push(imageSrc)
+    })
   })
 })
 
@@ -53,7 +63,8 @@ var data = {
   teams: {
     a: { score: 0, power: 0, image: null },
     b: { score: 0, power: 0, image: null }
-  }
+  },
+  allowUpload: true
 }
 
 var updateTimeoutId
@@ -72,7 +83,7 @@ io.on('connection', function (socket) {
     tugTimeoutId = setTimeout(function () {
       tugTimeoutId = null
 
-      if (data.teams[team])
+      if (data.teams[team].image)
         data.teams[team].score += 1
 
       if (Math.abs(data.teams.a.score - data.teams.b.score) > 100 * data.onlines) {
@@ -82,6 +93,8 @@ io.on('connection', function (socket) {
         data.teams.b.score = 0
         data.teams.b.power = 0
         data.teams.b.image = null
+        data.allowUpload=true
+        processImage()
       }
 
       if (updateTimeoutId)
@@ -102,7 +115,7 @@ io.on('connection', function (socket) {
 
     tucaoTimeoutId = setTimeout(function () {
       tucaoTimeoutId = null
-      
+
       io.emit('tucao', team, content)
     }, 16)
   })
@@ -129,5 +142,27 @@ setInterval(function () {
 
   io.emit('update', data)
 }, 1000)
+
+var image = {
+  a: [],
+  b: []
+}
+
+function processImage() {
+  setTimeout(function () {
+    if(!image.a.length || !image.b.length) {
+      processImage()
+      return
+    }
+    data.teams.a.image = image.a[parseInt(Math.random()*image.a.length)]
+    data.teams.b.image = image.b[parseInt(Math.random()*image.b.length)]
+    data.allowUpload = false
+    image.a = []
+    image.b = []
+    io.emit('update', data)
+  },10000)
+}
+
+processImage()
 
 http.listen(1338)
