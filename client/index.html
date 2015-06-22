@@ -246,7 +246,10 @@
 <body>
   <p id="loading" v-if="!loaded">载入中</p>
   <div id="app" style="display: none;" v-show="loaded">
-    <h2 id="scores">{{teams.a.score}} : {{teams.b.score}}</h2>
+    <h2 id="scores">
+      <span v-if="!allowUpload">{{teams.a.score}} : {{teams.b.score}}</span>
+      <span v-if="allowUpload">上传图片时间</span>
+    </h2>
     <div id="line"><span id="flag" v-style="
       left: (50 + (teams.b.score - teams.a.score) / 2 / onlines) + '%'
     "></span></div>
@@ -290,7 +293,8 @@
         teams: {
           a: { score: null, power: null, image: null },
           b: { score: null, power: null, image: null }
-        }
+        },
+        allowUpload: true
       },
       ready: function () {
         document.addEventListener('keydown', function (e) {
@@ -417,6 +421,8 @@
           this.teams.b.image = data.teams.b.image
 
           this.onlines = data.onlines
+
+          this.allowUpload = data.allowUpload
         }
       }
     })
