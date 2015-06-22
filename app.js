@@ -34,7 +34,7 @@ app.put('/teams/:name/image', function (req, res, next) {
     return res.status(400).end()
 
   var imageSrc = '/upload/' + imageFile.name
-  
+
   fs.rename(imageFile.path, __dirname + imageSrc, function (err) {
     if (err)
       return next(err)
@@ -89,6 +89,12 @@ io.on('connection', function (socket) {
         io.emit('update', data)
       }, 16)
     }, 16)
+  })
+
+  socket.on('tucao', function (team, content) {
+    if (!content)
+      return
+    io.emit('tucao', team, content)
   })
 })
 

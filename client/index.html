@@ -120,6 +120,63 @@
       font-size: 40px;
     }
 
+    #form_tucao_a, #form_tucao_b {
+      position: absolute;
+      bottom: 6%;
+      margin: auto;
+      height: 30px;
+      width: 200px;
+      z-index: 1;
+    }
+    #form_tucao_a {
+      left: 19%;
+      -webkit-transform: translate(-50%);
+              transform: translate(-50%);
+    }
+    #form_tucao_b {
+      right: 19%;
+      -webkit-transform: translate(50%);
+              transform: translate(50%);
+    }
+
+    .textbox-tucao {
+      text-align: center;
+      font-size: 16px;
+      width: 100%;
+      border: none;
+      border-bottom: 2px solid #ccc;
+      outline: none;
+      transition: all .2s;
+      padding-bottom: 4px;
+    }
+
+    .textbox-tucao:focus {
+      border-bottom-color: #39f;
+    }
+
+    .tucao-area {
+      position: absolute;
+      bottom: 280px;
+      left: -500px;
+      right: -500px;
+    }
+
+    .tip-tucao {
+      font-size: 40px;
+      -webkit-transform: translateZ(0);
+              transform: translateZ(0);
+      display: block;
+      text-align: center;
+      height: 1.5em;
+      line-height: 1.5;
+      -webkit-animation: height-enter .2s both;
+              animation: height-enter .2s both;
+    }
+    .tip-tucao.leave {
+      -webkit-animation: leave .6s both;
+              animation: leave .6s both;
+    }
+
     @-webkit-keyframes leave {
       from {
         opacity: 1;
@@ -145,6 +202,42 @@
                 transform: translateY(-10px);
       }
     }
+
+    @-webkit-keyframes height-enter {
+      from {
+        height: 0;
+      }
+      to {
+        height: 40px;
+      }
+    }
+
+    @keyframes height-enter {
+      from {
+        height: 0;
+      }
+      to {
+        height: 1.5em;
+      }
+    }
+
+    @-webkit-keyframes hide-leave {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+
+    @keyframes hide-leave {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -158,12 +251,22 @@
       transform: 'translateX(-50%) scale(' + (1 + teams.a.power / 20) / 3 + ')',
       background-image: 'url(' + teams.a.image + ')',
       background-color: teams.a.image ? 'transparent' : 'black'
-    "></div>
+    ">
+      <div id="tucao_area_a" v-el="tucao_area_a" class="tucao-area"></div>
+    </div>
     <div id="team_b" v-el="team_b" v-on="mousedown: tug('b'), touchstart: tug('b')" v-style="
       transform: 'translateX(50%) scale(' + (1 + teams.b.power / 20) / 3 + ')',
       background-image: 'url(' + teams.b.image + ')',
       background-color: teams.b.image ? 'white' : 'black'
-    "></div>
+    ">
+      <div id="tucao_area_b" v-el="tucao_area_b" class="tucao-area"></div>
+    </div>
+    <form v-on="submit: tucaoA" id="form_tucao_a">
+      <input id="textbox_a" v-el="textbox_a" type="text" placeholder="吐槽" class="textbox-tucao" required="required" v-on="mousedown: stopPropagation, touchstart: stopPropagation">
+    </form>
+    <form v-on="submit: tucaoB" id="form_tucao_b">
+      <input id="textbox_b" v-el="textbox_b" type="text" placeholder="吐槽" class="textbox-tucao" required="required" v-on="mousedown: stopPropagation, touchstart: stopPropagation">
+    </form>
   </div>
   <a id="github" href="https://github.com/KuroGuo/tug-of-war" target="_blank" title="Kuro 是个热爱交朋友的人，加我 QQ 吧：413298956">github</a>
 
@@ -192,10 +295,14 @@
         document.addEventListener('touchstart', this.preventDefault)
 
         socket.on('update', this.update)
+        socket.on('tucao', this.onTucao)
       },
       methods: {
         preventDefault: function (e) {
           e.preventDefault()
+        },
+        stopPropagation: function (e) {
+          e.stopPropagation()
         },
         tug: function (team) {
           if (!this.teams[team].image) {
@@ -226,6 +333,42 @@
           setTimeout(function () {
             this.$$['team_' + team].removeChild(tip)
           }.bind(this), 1000)
+        },
+        tucaoA: function (e) {
+          e.preventDefault()
+
+          var input = this.$$.textbox_a
+
+          var value = input.value
+
+          socket.emit('tucao', 'a', value)
+
+          input.value = ''
+        },
+        tucaoB: function (e) {
+          e.preventDefault()
+
+          var input = this.$$.textbox_b
+
+          var value = input.value
+
+          socket.emit('tucao', 'b', value)
+
+          input.value = ''
+        },
+        onTucao: function (team, content) {
+          var tipTucao = document.createElement('span')
+          tipTucao.classList.add('tip-tucao')
+          tipTucao.innerHTML = content
+
+          this.$$['tucao_area_' + team].appendChild(tipTucao)
+
+          setTimeout(function () {
+            tipTucao.classList.add('leave')
+            setTimeout(function () {
+              this.$$['tucao_area_' + team].removeChild(tipTucao)
+            }.bind(this), 1000)
+          }.bind(this), 5000)
         },
         update: function (data) {
           if (!this.loaded)
