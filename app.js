@@ -10,7 +10,7 @@ var path = require('path')
 app.use(express.static('client'))
 app.use('/upload', express.static('upload'))
 
-app.use(multer())
+app.use(multer({ dest: './upload/temp/' }))
 
 app.get('/vue.js', function (req, res, next) {
   res.sendFile(__dirname + '/node_modules/vue/dist/vue.min.js', function (err) {
@@ -23,19 +23,15 @@ app.put('/teams/:name/image', function (req, res, next) {
   var name = req.params.name
   var imageFile = req.files && req.files.image
 
-  if (!data.allowUpload)
-    return res.status(400).end()
-
   if (!imageFile)
     return res.status(400).end()
 
   var team = data.teams[name]
 
-  if (!team)
+  if (!data.allowUpload || !team || team.image) {
+    fs.unlink(imageFile.path)
     return res.status(400).end()
-
-  if (team.image)
-    return res.status(400).end()
+  }
 
   var md5 = crypto.createHash('md5')
   var s = fs.ReadStream(imageFile.path)
