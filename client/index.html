@@ -258,10 +258,10 @@
       <div id="tucao_area_b" v-el="tucao_area_b" class="tucao-area"></div>
     </div>
     <form v-on="submit: tucaoA" id="form_tucao_a">
-      <input id="textbox_a" v-el="textbox_a" type="text" placeholder="吐槽" class="textbox-tucao" required="required">
+      <input id="textbox_a" v-el="textbox_a" type="text" placeholder="吐槽" class="textbox-tucao">
     </form>
     <form v-on="submit: tucaoB" id="form_tucao_b">
-      <input id="textbox_b" v-el="textbox_b" type="text" placeholder="吐槽" class="textbox-tucao" required="required">
+      <input id="textbox_b" v-el="textbox_b" type="text" placeholder="吐槽" class="textbox-tucao">
     </form>
   </div>
   <a id="github" href="https://github.com/KuroGuo/tug-of-war" target="_blank" title="Kuro 是个热爱交朋友的人，加我 QQ 吧：413298956">github</a>
@@ -302,7 +302,7 @@
         document.addEventListener('touchstart', function (e) {
           if (e.target.tagName === 'INPUT')
             return
-          
+
           this.$$.textbox_a.blur()
           this.$$.textbox_b.blur()
         }.bind(this))
@@ -357,6 +357,9 @@
 
           var value = input.value
 
+          if (!value)
+            return
+
           socket.emit('tucao', 'a', value)
 
           input.value = ''
@@ -367,6 +370,9 @@
           var input = this.$$.textbox_b
 
           var value = input.value
+
+          if (!value)
+            return
 
           socket.emit('tucao', 'b', value)
 
