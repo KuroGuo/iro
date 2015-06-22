@@ -57,7 +57,6 @@
       width: 400px;
       height: 400px;
       border-radius: 100%;
-      top: 62%;
       bottom: 38%;
       margin: auto 0;
       transition: all .6s;
@@ -248,14 +247,14 @@
       left: (50 + (teams.b.score - teams.a.score) / 2 / onlines) + '%'
     "></span></div>
     <div id="team_a" v-el="team_a" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('a', 'mousedown'), touchstart: tug('a', 'touchstart'), click: tug('a', 'click')" v-style="
-      transform: 'translateX(-50%) scale(' + (2 + teams.a.power / 20) / 12 + ')',
+      transform: 'translate(-50%, 50%) scale(' + (2 + teams.a.power / 20) / 12 + ')',
       background-image: 'url(' + teams.a.image + ')',
       background-color: teams.a.image ? 'transparent' : 'black'
     ">
       <div id="tucao_area_a" v-el="tucao_area_a" class="tucao-area"></div>
     </div>
     <div id="team_b" v-el="team_b" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('b', 'mousedown'), touchstart: tug('b', 'touchstart'), click: tug('b', click)" v-style="
-      transform: 'translateX(50%) scale(' + (2 + teams.b.power / 20) / 12 + ')',
+      transform: 'translate(50%, 50%) scale(' + (2 + teams.b.power / 20) / 12 + ')',
       background-image: 'url(' + teams.b.image + ')',
       background-color: teams.b.image ? 'white' : 'black'
     ">
@@ -391,7 +390,7 @@
           var tipTucao = document.createElement('div')
           tipTucao.classList.add('tip-tucao')
           tipTucao.classList.add('tip-tucao-' + team)
-          tipTucao.innerHTML = content
+          tipTucao.textContent = content
 
           this.$$['tucao_area_' + team].appendChild(tipTucao)
 

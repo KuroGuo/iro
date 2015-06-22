@@ -94,28 +94,10 @@ io.on('connection', function (socket) {
     }, 16)
   })
 
-  var tucaoCount = 0
-  var gag = false
-
-  setInterval(function () {
-    tucaoCount = 0
-  }, 6000)
-
   socket.on('tucao', function (team, content) {
-    if (tucaoCount > 6) {
-      gag = true
-      setTimeout(function () {
-        gag = false
-      }, 60000)
+    if (!content || content.length > 20)
       return
-    }
-
-    if (!content || content.length > 20 || gag)
-      return
-
     io.emit('tucao', team, content)
-
-    tucaoCount += 1
   })
 
   socket.on('disconnect', function () {
