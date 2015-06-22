@@ -64,6 +64,7 @@
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
+      box-shadow: 0 1px 8px #aaa;
     }
     #team_a {
       left: 19%;
@@ -160,7 +161,7 @@
     <div id="team_b" v-el="team_b" v-on="mousedown: tug('b'), touchstart: tug('b')" v-style="
       transform: 'translateX(50%) scale(' + (1 + teams.b.power / 20) + ')',
       background-image: 'url(' + teams.b.image + ')',
-      background-color: teams.b.image ? 'transparent' : 'black'
+      background-color: teams.b.image ? 'white' : 'black'
     "></div>
   </div>
   <a id="github" href="https://github.com/KuroGuo/tug-of-war" target="_blank" title="Kuro 是个热爱交朋友的人，加我 QQ 吧：413298956">github</a>
