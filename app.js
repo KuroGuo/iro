@@ -83,6 +83,9 @@ io.on('connection', function (socket) {
     tugTimeoutId = setTimeout(function () {
       tugTimeoutId = null
 
+      if (!data.teams[team])
+        return
+
       if (data.teams[team].image)
         data.teams[team].score += 1
 
