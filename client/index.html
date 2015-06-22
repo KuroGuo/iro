@@ -169,6 +169,10 @@
       -webkit-animation: height-enter .2s both;
               animation: height-enter .2s both;
     }
+    .tip-tucao.leave {
+      -webkit-animation: leave .6s both;
+              animation: leave .6s both;
+    }
 
     #onlines {
       position: fixed;
@@ -395,7 +399,10 @@
           this.$$['tucao_area_' + team].appendChild(tipTucao)
 
           setTimeout(function () {
-            this.$$['tucao_area_' + team].removeChild(tipTucao)
+            tipTucao.classList.add('leave')
+            setTimeout(function () {
+              this.$$['tucao_area_' + team].removeChild(tipTucao)
+            }.bind(this), 1000)
           }.bind(this), 6000)
         },
         update: function (data) {
