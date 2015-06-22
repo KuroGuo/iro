@@ -28,7 +28,7 @@ app.put('/teams/:name/image', function (req, res, next) {
 
   var team = data.teams[name]
 
-  if (!data.allowUpload || !team || team.image) {
+  if (!team) {
     fs.unlink(imageFile.path)
     return res.status(400).end()
   }
@@ -43,9 +43,9 @@ app.put('/teams/:name/image', function (req, res, next) {
     fs.rename(imageFile.path, __dirname + imageSrc, function (err) {
       if (err)
         return next(err)
-      res.status(201).end()
       if (image[name].indexOf(imageSrc) === -1)
         image[name].push(imageSrc)
+      res.status(201).end()
     })
   })
 })
