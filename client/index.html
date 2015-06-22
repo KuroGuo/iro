@@ -334,7 +334,7 @@
             var input = document.createElement('input')
             input.type = 'file'
             input.accept = 'image/*'
-            input.style.opacity = 0
+            input.style.visibility = 'hidden'
             input.onchange = function (e) {
               document.body.removeChild(input)
               var file = e.target.files[0]
