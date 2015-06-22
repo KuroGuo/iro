@@ -21,11 +21,12 @@ app.get('/vue.js', function (req, res, next) {
 
 app.put('/teams/:name/image', function (req, res, next) {
   var name = req.params.name
+  var imageFile = req.files && req.files.image
 
   if (!data.allowUpload)
     return res.status(400).end()
 
-  if (!req.files)
+  if (!imageFile)
     return res.status(400).end()
 
   var team = data.teams[name]
@@ -35,8 +36,6 @@ app.put('/teams/:name/image', function (req, res, next) {
 
   if (team.image)
     return res.status(400).end()
-
-  var imageFile = req.files.image
 
   var md5 = crypto.createHash('md5')
   var s = fs.ReadStream(imageFile.path)
