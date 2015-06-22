@@ -325,6 +325,7 @@
             var input = document.createElement('input')
             input.type = 'file'
             input.accept = 'image/*'
+            input.style.opacity = 0
             input.onchange = function (e) {
               document.body.removeChild(input)
               var file = e.target.files[0]
@@ -333,6 +334,12 @@
               var formData = new FormData()
               formData.append('image', file)
               xhr.send(formData)
+            }
+            input.onmousedown = function (e) {
+              e.stopPropagation()
+            }
+            input.ontouchstart = function (e) {
+              e.stopPropagation()
             }
             document.body.appendChild(input)
             input.click()
