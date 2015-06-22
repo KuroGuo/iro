@@ -298,6 +298,9 @@
           e.stopPropagation()
         },
         tug: function (team) {
+          if (!this.teams[team])
+            return
+
           if (!this.teams[team].image) {
             var input = document.createElement('input')
             input.type = 'file'
