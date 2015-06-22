@@ -54,14 +54,16 @@
 
     #team_a, #team_b {
       position: absolute;
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
       border-radius: 100%;
-      background-color: black;
       top: 0;
       bottom: 0;
       margin: auto 0;
       transition: all .6s;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
     }
     #team_a {
       left: 19%;
@@ -151,10 +153,14 @@
       left: (50 + (teams.b.score - teams.a.score) / 20) + '%'
     "></span></div>
     <div id="team_a" v-el="team_a" v-on="mousedown: tug('a'), touchstart: tug('a')" v-style="
-      transform: 'translateX(-50%) scale(' + (1 + teams.a.power / 20) + ')'
+      transform: 'translateX(-50%) scale(' + (1 + teams.a.power / 20) + ')',
+      background-image: 'url(' + teams.a.image + ')',
+      background-color: teams.a.image ? 'transparent' : 'black'
     "></div>
     <div id="team_b" v-el="team_b" v-on="mousedown: tug('b'), touchstart: tug('b')" v-style="
-      transform: 'translateX(50%) scale(' + (1 + teams.b.power / 20) + ')'
+      transform: 'translateX(50%) scale(' + (1 + teams.b.power / 20) + ')',
+      background-image: 'url(' + teams.b.image + ')',
+      background-color: teams.b.image ? 'transparent' : 'black'
     "></div>
   </div>
   <a id="github" href="https://github.com/KuroGuo/tug-of-war" target="_blank" title="Kuro 是个热爱交朋友的人，加我 QQ 吧：413298956">github</a>
@@ -172,8 +178,8 @@
         loaded: false,
         myTeam: null,
         teams: {
-          a: { score: null, power: null },
-          b: { score: null, power: null }
+          a: { score: null, power: null, image: null },
+          b: { score: null, power: null, image: null }
         }
       },
       ready: function () {
@@ -190,6 +196,21 @@
           e.preventDefault()
         },
         tug: function (team) {
+          if (!this.teams[team].image) {
+            var input = document.createElement('input')
+            input.type = 'file'
+            input.onchange = function (e) {
+              var file = e.target.files[0]
+              var xhr = new XMLHttpRequest()
+              xhr.open('PUT', '/teams/' + team + '/image', true)
+              var formData = new FormData()
+              formData.append('image', file)
+              xhr.send(formData)
+            }
+            input.click()
+            return
+          }
+
           this.myTeam = team
           socket.emit('tug', this.myTeam)
 
@@ -209,8 +230,10 @@
 
           this.teams.a.score = data.teams.a.score
           this.teams.a.power = data.teams.a.power
+          this.teams.a.image = data.teams.a.image
           this.teams.b.score = data.teams.b.score
           this.teams.b.power = data.teams.b.power
+          this.teams.b.image = data.teams.b.image
         }
       }
     })
