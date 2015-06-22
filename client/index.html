@@ -243,14 +243,14 @@
     <div id="line"><span id="flag" v-style="
       left: (50 + (teams.b.score - teams.a.score) / 20) + '%'
     "></span></div>
-    <div id="team_a" v-el="team_a" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('a'), touchstart: tug('a')" v-style="
+    <div id="team_a" v-el="team_a" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('a'), touchstart: tug('a'), click: tug('a')" v-style="
       transform: 'translateX(-50%) scale(' + (1 + teams.a.power / 20) / 3 + ')',
       background-image: 'url(' + teams.a.image + ')',
       background-color: teams.a.image ? 'transparent' : 'black'
     ">
       <div id="tucao_area_a" v-el="tucao_area_a" class="tucao-area"></div>
     </div>
-    <div id="team_b" v-el="team_b" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('b'), touchstart: tug('b')" v-style="
+    <div id="team_b" v-el="team_b" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('b'), touchstart: tug('b'), click: tug('a')" v-style="
       transform: 'translateX(50%) scale(' + (1 + teams.b.power / 20) / 3 + ')',
       background-image: 'url(' + teams.b.image + ')',
       background-color: teams.b.image ? 'white' : 'black'
@@ -334,12 +334,6 @@
               var formData = new FormData()
               formData.append('image', file)
               xhr.send(formData)
-            }
-            input.onmousedown = function (e) {
-              e.stopPropagation()
-            }
-            input.ontouchstart = function (e) {
-              e.stopPropagation()
             }
             document.body.appendChild(input)
             input.click()
