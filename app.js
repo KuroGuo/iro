@@ -72,6 +72,8 @@ setInterval(function () {
   lastTime = now
   lastScoreA = data.teams.a.score
   lastScoreB = data.teams.b.score
+
+  io.emit('update', data)
 }, 1000)
 
 http.listen(1338)
