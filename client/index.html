@@ -166,11 +166,16 @@
       -webkit-transform: translateZ(0);
               transform: translateZ(0);
       display: block;
-      text-align: center;
       height: 1.5em;
       line-height: 1.5;
       -webkit-animation: height-enter .2s both;
               animation: height-enter .2s both;
+    }
+    .tip-tucao-a {
+      text-align: right;
+    }
+    .tip-tucao-b {
+      text-align: left;
     }
 
     @-webkit-keyframes leave {
@@ -353,6 +358,7 @@
         onTucao: function (team, content) {
           var tipTucao = document.createElement('span')
           tipTucao.classList.add('tip-tucao')
+          tipTucao.classList.add('tip-tucao-' + team)
           tipTucao.innerHTML = content
 
           this.$$['tucao_area_' + team].appendChild(tipTucao)
