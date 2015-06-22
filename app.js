@@ -75,7 +75,7 @@ io.on('connection', function (socket) {
       if (data.teams[team])
         data.teams[team].score += 1
 
-      if (Math.abs(data.teams.a.score - data.teams.b.score) > 1000) {
+      if (Math.abs(data.teams.a.score - data.teams.b.score) > 100 * data.onlines) {
         data.teams.a.score = 0
         data.teams.a.power = 0
         data.teams.a.image = null
@@ -97,14 +97,6 @@ io.on('connection', function (socket) {
   socket.on('tucao', function (team, content) {
     if (!content || content.length > 20)
       return
-
-    var filter = ['支那', '中共', '六四']
-
-    if (filter.some(function (keyword) {
-      return content.indexOf(keyword) >= 0
-    }))
-      return
-
     io.emit('tucao', team, content)
   })
 
