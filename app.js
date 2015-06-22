@@ -93,7 +93,7 @@ io.on('connection', function (socket) {
         data.teams.b.score = 0
         data.teams.b.power = 0
         data.teams.b.image = null
-        data.allowUpload=true
+        data.allowUpload = true
         processImage()
       }
 
