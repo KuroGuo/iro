@@ -154,12 +154,12 @@
       left: (50 + (teams.b.score - teams.a.score) / 20) + '%'
     "></span></div>
     <div id="team_a" v-el="team_a" v-on="mousedown: tug('a'), touchstart: tug('a')" v-style="
-      transform: 'translateX(-50%) scale(' + (0.3 + teams.a.power / 20) + ')',
+      transform: 'translateX(-50%) scale(' + (1 + teams.a.power / 20) / 3 + ')',
       background-image: 'url(' + teams.a.image + ')',
       background-color: teams.a.image ? 'transparent' : 'black'
     "></div>
     <div id="team_b" v-el="team_b" v-on="mousedown: tug('b'), touchstart: tug('b')" v-style="
-      transform: 'translateX(50%) scale(' + (0.3 + teams.b.power / 20) + ')',
+      transform: 'translateX(50%) scale(' + (1 + teams.b.power / 20) / 3 + ')',
       background-image: 'url(' + teams.b.image + ')',
       background-color: teams.b.image ? 'white' : 'black'
     "></div>
