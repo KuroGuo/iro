@@ -83,25 +83,17 @@ io.on('connection', function (socket) {
       if (!data.teams[team])
         return
 
-      if (data.allowUpload)
-        return
-
       if (data.teams[team].image)
         data.teams[team].score += 1
 
       if (Math.abs(data.teams.a.score - data.teams.b.score) > 100 * data.onlines) {
-        if (data.teams.a.score > data.teams.b.score)
-          data.teams.b.image = null
-        else if (data.teams.a.score < data.teams.b.score)
-          data.teams.a.image = null
-
         data.teams.a.score = 0
         data.teams.a.power = 0
+        data.teams.a.image = null
         data.teams.b.score = 0
         data.teams.b.power = 0
-
+        data.teams.b.image = null
         data.allowUpload = true
-
         processImage()
       }
 
@@ -163,27 +155,23 @@ var image = {
 
 function processImage() {
   setTimeout(function () {
+    if(!image.a.length || !image.b.length)
+      return processImage()
+
     var imageA = image.a[Math.floor(Math.random() * image.a.length)]
     var imageB = image.b[Math.floor(Math.random() * image.b.length)]
 
-    if (
-      imageA === imageB ||
-      !imageA && !data.teams.a.image ||
-      !imageB && !data.teams.b.image
-    )
+    if (imageA === imageB)
       return processImage()
 
-    if (!data.teams.a.image && imageA) {
-      data.teams.a.image = imageA
-      image.a = []
-    }
-    if (!data.teams.b.image && imageB) {
-      data.teams.b.image = imageB
-      image.b = []
-    }
+    data.teams.a.image = imageA
+    data.teams.b.image = imageB
 
     data.allowUpload = false
 
+    image.a = []
+    image.b = []
+    
     io.emit('update', data)
   },10000)
 }
