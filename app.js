@@ -11,7 +11,14 @@ var tucaoFilter = require('./tucao_filter')
 app.use(express.static('client'))
 app.use('/upload', express.static('upload'))
 
-app.use(multer({ dest: './upload/temp/' }))
+app.use(multer({
+  dest: './upload/temp/',
+  limits: {
+    files: 1,
+    fileSize: 10 * 1024 * 1024,
+    fields: 0
+  }
+}))
 
 app.get('/vue.js', function (req, res, next) {
   res.sendFile(__dirname + '/node_modules/vue/dist/vue.min.js', function (err) {
@@ -29,7 +36,7 @@ app.put('/teams/:name/image', function (req, res, next) {
 
   var team = data.teams[name]
 
-  if (!team) {
+  if (!team || imageFile.mimetype.indexOf('image/') !== 0) {
     fs.unlink(imageFile.path)
     return res.status(400).end()
   }
