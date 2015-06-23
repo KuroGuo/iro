@@ -6,6 +6,7 @@ var io = require('socket.io')(http)
 var fs = require('fs')
 var crypto = require('crypto')
 var path = require('path')
+var tucaoFilter = require('./tucao_filter')
 
 app.use(express.static('client'))
 app.use('/upload', express.static('upload'))
@@ -117,7 +118,12 @@ io.on('connection', function (socket) {
   var tucaoTimeoutId
 
   socket.on('tucao', function (team, content) {
-    if (tucaoTimeoutId || !content || content.length > 20)
+    if (
+      tucaoTimeoutId ||
+      !content ||
+      content.length > 20 ||
+      !tucaoFilter(content)
+    )
       return
 
     tucaoTimeoutId = setTimeout(function () {
