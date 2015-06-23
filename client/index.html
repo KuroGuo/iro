@@ -18,6 +18,11 @@
       margin: 0;
     }
 
+    input {
+      font-family: inherit;
+      text-rendering: inherit;
+    }
+
     #app {
       position: fixed;
       left: 0;
@@ -65,6 +70,7 @@
       background-position: center;
       box-shadow: 0 1px 4px #aaa;
       z-index: 2;
+      font-size: 50px;
     }
     #team_a {
       left: 19%;
@@ -73,16 +79,42 @@
       right: 19%;
     }
 
+    @media screen and (max-width: 1500px) {
+      #team_a, #team_b {
+        width: 300px;
+        height: 300px;
+        font-size: 40px;
+      }
+    }
+
+    @media screen and (max-width: 1000px) {
+      #team_a, #team_b {
+        width: 200px;
+        height: 200px;
+        font-size: 30px;
+      }
+    } 
+    
+    @media screen and (max-width: 600px) {
+      #team_a, #team_b {
+        width: 100px;
+        height: 100px;
+        font-size: 20px;
+      }
+    } 
+
     #scores {
       text-align: center;
-      font-size: 72px;
+      font-size: 60px;
       font-weight: normal;
-      font-family: Menlo, Monaco, Consolas, monospace;
       margin: 0;
       position: absolute;
       left: 0;
       right: 0;
-      top: 20%;
+      top: 3%;
+    }
+    #scores_text {
+      font-family: Menlo, Monaco, Consolas, monospace;
     }
 
     @media screen and (max-width: 768px) {
@@ -156,13 +188,14 @@
 
     .tucao-area {
       position: absolute;
-      bottom: 500px;
+      bottom: 10em;
       left: -500px;
       right: -500px;
+      -webkit-transform: translateZ(0);
+              transform: translateZ(0);
     }
 
     .tip-tucao {
-      font-size: 50px;
       -webkit-transform: translateZ(0);
               transform: translateZ(0);
       text-align: center;
@@ -210,18 +243,22 @@
     @-webkit-keyframes height-enter {
       from {
         height: 0;
+        opacity: 0;
       }
       to {
         height: 1.2em;
+        opacity: 1;
       }
     }
 
     @keyframes height-enter {
       from {
         height: 0;
+        opacity: 0;
       }
       to {
         height: 1.2em;
+        opacity: 1;
       }
     }
 
@@ -248,21 +285,21 @@
   <p id="loading" v-if="!loaded">载入中</p>
   <div id="app" style="display: none;" v-show="loaded">
     <h2 id="scores">
-      <span v-if="!allowUpload">{{teams.a.score}} : {{teams.b.score}}</span>
+      <span class="scores_text" v-if="!allowUpload">{{teams.a.score}} : {{teams.b.score}}</span>
       <span v-if="allowUpload">上传图片时间</span>
     </h2>
     <div id="line"><span id="flag" v-style="
       left: (50 + (teams.b.score - teams.a.score) / 2 / onlines) + '%'
     "></span></div>
     <div id="team_a" v-el="team_a" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('a', 'mousedown'), touchstart: tug('a', 'touchstart'), click: tug('a', 'click')" v-style="
-      transform: 'translate(-50%, 50%) scale(' + (0.5 + teams.a.power / 200) + ')',
+      transform: 'translate(-50%, 50%) scale(' + (0.5 + teams.a.power / 600) + ')',
       background-image: teams.a.image ? 'url(' + teams.a.image + ')' : 'none',
       background-color: teams.a.image ? 'white' : 'black'
     ">
       <div id="tucao_area_a" v-el="tucao_area_a" class="tucao-area"></div>
     </div>
     <div id="team_b" v-el="team_b" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('b', 'mousedown'), touchstart: tug('b', 'touchstart'), click: tug('b', click)" v-style="
-      transform: 'translate(50%, 50%) scale(' + (0.5 + teams.b.power / 200) + ')',
+      transform: 'translate(50%, 50%) scale(' + (0.5 + teams.b.power / 600) + ')',
       background-image: teams.b.image ? 'url(' + teams.b.image + ')' : 'none',
       background-color: teams.b.image ? 'white' : 'black'
     ">
