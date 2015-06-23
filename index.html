@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Tug Of War</title>
+  <style>
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: "Microsoft YaHei Light","Microsoft YaHei","Helvetica Neue",Helvetica,Arial,"Lantinghei SC","Hiragino Sans GB","WenQuanYi Micro Hei",sans-serif;
+      text-rendering: geometricPrecision;
+      margin: 0;
+    }
+
+    #app {
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+    }
+
+    #line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 62%;
+      bottom: 38%;
+      margin: auto;
+      width: 62%;
+      height: 2px;
+      background-color: black;
+    }
+
+    #flag {
+      position: absolute;
+      margin: 0 auto;
+      width: 0;
+      height: 0;
+      -webkit-transform: translateX(-50%);
+              transform: translateX(-50%);
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 30px solid black;
+      border-bottom: 30px solid transparent;
+      transition: all .2s;
+    }
+
+    #team_a, #team_b {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 100%;
+      bottom: 38%;
+      margin: auto 0;
+      transition: all .6s;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      box-shadow: 0 1px 4px #aaa;
+    }
+    #team_a {
+      left: 19%;
+    }
+    #team_b {
+      right: 19%;
+    }
+
+    #scores {
+      text-align: center;
+      font-size: 72px;
+      font-weight: normal;
+      font-family: Menlo, Monaco, Consolas, monospace;
+      margin: 0;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 20%;
+    }
+
+    @media screen and (max-width: 768px) {
+      #scores {
+        font-size: 30px;
+      }
+    }
+
+    .tip {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -1.2em;
+      text-align: center;
+      font-size: 90px;
+      -webkit-animation: leave .6s both;
+              animation: leave .6s both;
+    }
+
+    #github {
+      position: fixed;
+      right: 10px;
+      bottom: 10px;
+      font-size: 20px;
+      color: black;
+      text-decoration: none;
+    }
+
+    #loading {
+      text-align: center;
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 30%;
+      font-size: 40px;
+    }
+
+    #form_tucao_a, #form_tucao_b {
+      position: absolute;
+      bottom: 6%;
+      margin: auto;
+      height: 30px;
+      width: 200px;
+      z-index: 1;
+    }
+    #form_tucao_a {
+      left: 19%;
+      -webkit-transform: translate(-50%);
+              transform: translate(-50%);
+    }
+    #form_tucao_b {
+      right: 19%;
+      -webkit-transform: translate(50%);
+              transform: translate(50%);
+    }
+
+    .textbox-tucao {
+      text-align: center;
+      font-size: 16px;
+      width: 100%;
+      border: none;
+      border-bottom: 2px solid #ccc;
+      outline: none;
+      transition: all .2s;
+      padding-bottom: 4px;
+    }
+
+    .textbox-tucao:focus {
+      border-bottom-color: #39f;
+    }
+
+    .tucao-area {
+      position: absolute;
+      bottom: 500px;
+      left: -500px;
+      right: -500px;
+    }
+
+    .tip-tucao {
+      font-size: 50px;
+      -webkit-transform: translateZ(0);
+              transform: translateZ(0);
+      text-align: center;
+      height: 1.2em;
+      -webkit-animation: height-enter .2s both;
+              animation: height-enter .2s both;
+    }
+    .tip-tucao.leave {
+      -webkit-animation: leave .6s both;
+              animation: leave .6s both;
+    }
+
+    #onlines {
+      position: fixed;
+      right: 10px;
+      top: 10px;
+    }
+
+    @-webkit-keyframes leave {
+      from {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+                transform: translateY(0);
+      }
+      to {
+        opacity: 0;
+        -webkit-transform: translateY(-10px);
+                transform: translateY(-10px);
+      }
+    }
+
+    @keyframes leave {
+      from {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+                transform: translateY(0);
+      }
+      to {
+        opacity: 0;
+        -webkit-transform: translateY(-10px);
+                transform: translateY(-10px);
+      }
+    }
+
+    @-webkit-keyframes height-enter {
+      from {
+        height: 0;
+      }
+      to {
+        height: 1.2em;
+      }
+    }
+
+    @keyframes height-enter {
+      from {
+        height: 0;
+      }
+      to {
+        height: 1.2em;
+      }
+    }
+
+    @-webkit-keyframes hide-leave {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+
+    @keyframes hide-leave {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <p id="loading" v-if="!loaded">载入中</p>
+  <div id="app" style="display: none;" v-show="loaded">
+    <h2 id="scores">
+      <span v-if="!allowUpload">{{teams.a.score}} : {{teams.b.score}}</span>
+      <span v-if="allowUpload">上传图片时间</span>
+    </h2>
+    <div id="line"><span id="flag" v-style="
+      left: (50 + (teams.b.score - teams.a.score) / 2 / onlines) + '%'
+    "></span></div>
+    <div id="team_a" v-el="team_a" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('a', 'mousedown'), touchstart: tug('a', 'touchstart'), click: tug('a', 'click')" v-style="
+      transform: 'translate(-50%, 50%) scale(' + (6 + teams.a.power / 20) / 18 + ')',
+      background-image: teams.a.image ? 'url(' + teams.a.image + ')' : 'none',
+      background-color: teams.a.image ? 'white' : 'black'
+    ">
+      <div id="tucao_area_a" v-el="tucao_area_a" class="tucao-area"></div>
+    </div>
+    <div id="team_b" v-el="team_b" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('b', 'mousedown'), touchstart: tug('b', 'touchstart'), click: tug('b', click)" v-style="
+      transform: 'translate(50%, 50%) scale(' + (6 + teams.b.power / 20) / 18 + ')',
+      background-image: teams.b.image ? 'url(' + teams.b.image + ')' : 'none',
+      background-color: teams.b.image ? 'white' : 'black'
+    ">
+      <div id="tucao_area_b" v-el="tucao_area_b" class="tucao-area"></div>
+    </div>
+    <form v-on="submit: tucaoA" id="form_tucao_a">
+      <input id="textbox_a" v-el="textbox_a" type="text" placeholder="吐槽" class="textbox-tucao">
+    </form>
+    <form v-on="submit: tucaoB" id="form_tucao_b">
+      <input id="textbox_b" v-el="textbox_b" type="text" placeholder="吐槽" class="textbox-tucao">
+    </form>
+  </div>
+  <a id="github" href="https://github.com/KuroGuo/tug-of-war" target="_blank" title="Kuro 是个热爱交朋友的人，加我 QQ 吧：413298956">github</a>
+  <div id="onlines">{{onlines}} 人在线</div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/vue.js"></script>
+  <script>
+    console.log('Kuro 是个热爱交朋友的人，加我 QQ 吧：413298956')
+
+    var socket = io()
+
+    var app = new Vue({
+      el: document.documentElement,
+      data: {
+        loaded: false,
+        myTeam: null,
+        onlines: null,
+        teams: {
+          a: { score: null, power: null, image: null },
+          b: { score: null, power: null, image: null }
+        },
+        allowUpload: true
+      },
+      ready: function () {
+        document.addEventListener('keydown', function (e) {
+          if (e.target.tagName === 'INPUT')
+            return
+
+          this.tug(this.myTeam)
+        }.bind(this))
+
+        document.addEventListener('mousedown', function (e) {
+          if (e.target.tagName === 'INPUT')
+            return
+
+          this.$$.textbox_a.blur()
+          this.$$.textbox_b.blur()
+        }.bind(this))
+
+        document.addEventListener('touchstart', function (e) {
+          if (e.target.tagName === 'INPUT')
+            return
+
+          this.$$.textbox_a.blur()
+          this.$$.textbox_b.blur()
+        }.bind(this))
+
+        socket.on('update', this.update)
+        socket.on('tucao', this.onTucao)
+      },
+      methods: {
+        preventDefault: function (e) {
+          e.preventDefault()
+        },
+        stopPropagation: function (e) {
+          e.stopPropagation()
+        },
+        tug: function (team, event) {
+          if (!this.teams[team])
+            return
+
+          if (event !== 'mousedown' && !this.teams[team].image) {
+            var input = document.createElement('input')
+            input.type = 'file'
+            input.accept = 'image/*'
+            input.style.visibility = 'hidden'
+            input.onchange = function (e) {
+              document.body.removeChild(input)
+              var file = e.target.files[0]
+              var xhr = new XMLHttpRequest()
+              xhr.open('PUT', '/teams/' + team + '/image', true)
+              var formData = new FormData()
+              formData.append('image', file)
+              xhr.send(formData)
+            }
+            document.body.appendChild(input)
+            input.click()
+            return
+          }
+
+          this.myTeam = team
+          socket.emit('tug', this.myTeam)
+
+          var tip = document.createElement('span')
+          tip.classList.add('tip')
+          tip.innerHTML = '+1'
+
+          this.$$['team_' + team].appendChild(tip)
+
+          setTimeout(function () {
+            this.$$['team_' + team].removeChild(tip)
+          }.bind(this), 1000)
+        },
+        tucaoA: function (e) {
+          e.preventDefault()
+
+          var input = this.$$.textbox_a
+
+          var value = input.value
+
+          if (!value || value.lenght > 20)
+            return
+
+          socket.emit('tucao', 'a', value)
+
+          input.value = ''
+        },
+        tucaoB: function (e) {
+          e.preventDefault()
+
+          var input = this.$$.textbox_b
+
+          var value = input.value
+
+          if (!value || value.length > 20)
+            return
+
+          socket.emit('tucao', 'b', value)
+
+          input.value = ''
+        },
+        onTucao: function (team, content) {
+          var tipTucao = document.createElement('div')
+          tipTucao.classList.add('tip-tucao')
+          tipTucao.classList.add('tip-tucao-' + team)
+          tipTucao.textContent = content
+
+          this.$$['tucao_area_' + team].appendChild(tipTucao)
+
+          setTimeout(function () {
+            tipTucao.classList.add('leave')
+            setTimeout(function () {
+              this.$$['tucao_area_' + team].removeChild(tipTucao)
+            }.bind(this), 1000)
+          }.bind(this), 6000)
+        },
+        update: function (data) {
+          if (!this.loaded)
+            this.loaded = true
+
+          this.teams.a.score = data.teams.a.score
+          this.teams.a.power = data.teams.a.power
+          this.teams.a.image = data.teams.a.image
+          this.teams.b.score = data.teams.b.score
+          this.teams.b.power = data.teams.b.power
+          this.teams.b.image = data.teams.b.image
+
+          this.onlines = data.onlines
+
+          this.allowUpload = data.allowUpload
+        }
+      }
+    })
+  </script>
+</body>
+</html>
