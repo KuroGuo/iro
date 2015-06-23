@@ -255,14 +255,14 @@
     "></span></div>
     <div id="team_a" v-el="team_a" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('a', 'mousedown'), touchstart: tug('a', 'touchstart'), click: tug('a', 'click')" v-style="
       transform: 'translate(-50%, 50%) scale(' + (3 + teams.a.power / 20) / 18 + ')',
-      background-image: 'url(' + teams.a.image + ')',
+      background-image: teams.a.image ? 'url(' + teams.a.image + ')' : 'none',
       background-color: teams.a.image ? 'white' : 'black'
     ">
       <div id="tucao_area_a" v-el="tucao_area_a" class="tucao-area"></div>
     </div>
     <div id="team_b" v-el="team_b" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('b', 'mousedown'), touchstart: tug('b', 'touchstart'), click: tug('b', click)" v-style="
       transform: 'translate(50%, 50%) scale(' + (3 + teams.b.power / 20) / 18 + ')',
-      background-image: 'url(' + teams.b.image + ')',
+      background-image: teams.b.image ? 'url(' + teams.b.image + ')' : 'none',
       background-color: teams.b.image ? 'white' : 'black'
     ">
       <div id="tucao_area_b" v-el="tucao_area_b" class="tucao-area"></div>
