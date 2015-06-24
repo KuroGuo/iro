@@ -313,14 +313,12 @@
       <input id="textbox_b" v-el="textbox_b" type="text" placeholder="吐槽" class="textbox-tucao">
     </form>
   </div>
-  <a id="github" href="https://github.com/KuroGuo/tug-of-war" target="_blank" title="Kuro 是个热爱交朋友的人，加我 QQ 吧：413298956">github</a>
+  <a id="github" href="https://github.com/KuroGuo/tug-of-war" target="_blank">github</a>
   <div id="onlines">{{onlines}} 人在线</div>
 
   <script src="/socket.io/socket.io.js"></script>
   <script src="/vue.js"></script>
   <script>
-    console.log('Kuro 是个热爱交朋友的人，加我 QQ 吧：413298956')
-
     var socket = io()
 
     var app = new Vue({
