@@ -223,8 +223,8 @@
       }
       to {
         opacity: 0;
-        -webkit-transform: translateY(-10px);
-                transform: translateY(-10px);
+        -webkit-transform: translateY(-19.1%);
+                transform: translateY(-19.1%);
       }
     }
 
@@ -236,8 +236,8 @@
       }
       to {
         opacity: 0;
-        -webkit-transform: translateY(-10px);
-                transform: translateY(-10px);
+        -webkit-transform: translateY(-19.1%);
+                transform: translateY(-19.1%);
       }
     }
 
@@ -299,7 +299,7 @@
     ">
       <div id="tucao_area_a" v-el="tucao_area_a" class="tucao-area"></div>
     </div>
-    <div id="team_b" v-el="team_b" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('b', 'mousedown'), touchstart: tug('b', 'touchstart'), click: tug('b', click)" v-style="
+    <div id="team_b" v-el="team_b" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('b', 'mousedown'), touchstart: tug('b', 'touchstart'), click: tug('b', 'click')" v-style="
       transform: 'translate(50%, 50%) scale(' + (0.5 + teams.b.power / 600) + ')',
       background-image: teams.b.image ? 'url(' + teams.b.image + ')' : 'none',
       background-color: teams.b.image ? 'white' : 'black'
@@ -338,7 +338,7 @@
           if (e.target.tagName === 'INPUT')
             return
 
-          this.tug(this.myTeam)
+          this.tug(this.myTeam, 'keydown')
         }.bind(this))
 
         document.addEventListener('mousedown', function (e) {
@@ -367,28 +367,17 @@
         stopPropagation: function (e) {
           e.stopPropagation()
         },
+
         tug: function (team, event) {
           if (!this.teams[team])
             return
 
-          if (event !== 'mousedown' && !this.teams[team].image) {
-            var input = document.createElement('input')
-            input.type = 'file'
-            input.accept = 'image/*'
-            input.style.visibility = 'hidden'
-            input.onchange = function (e) {
-              document.body.removeChild(input)
-              var file = e.target.files[0]
-              var xhr = new XMLHttpRequest()
-              xhr.open('PUT', '/teams/' + team + '/image', true)
-              var formData = new FormData()
-              formData.append('image', file)
-              xhr.send(formData)
-            }
-            document.body.appendChild(input)
-            input.click()
-            return
+          if ((event === 'click' || event === 'touchstart') && !this.teams[team].image) {
+            return this.uploadImageFile(team)
           }
+
+          if (event === 'click')
+            return
 
           this.myTeam = team
           socket.emit('tug', this.myTeam)
@@ -402,6 +391,33 @@
           setTimeout(function () {
             this.$$['team_' + team].removeChild(tip)
           }.bind(this), 1000)
+        },
+        uploadImageFile: function (team) {
+          if (this.teams[team].image)
+            return
+          this.openFileDialog(function (file) {
+            var xhr = new XMLHttpRequest()
+            xhr.open('PUT', '/teams/' + team + '/image', true)
+            var formData = new FormData()
+            formData.append('image', file)
+            xhr.send(formData)
+          }.bind(this))
+        },
+        openFileDialog: function (callback) {
+          var input = document.createElement('input')
+          input.type = 'file'
+          input.accept = 'image/*'
+          input.style.visibility = 'hidden'
+          input.onchange = function (e) {
+            clearTimeout(timeoutId)
+            document.body.removeChild(input)
+            callback(e.target.files[0])
+          }
+          document.body.appendChild(input)
+          input.click()
+          var timeoutId = setTimeout(function () {
+            document.body.removeChild(input)
+          }, 60000)
         },
         tucaoA: function (e) {
           e.preventDefault()
