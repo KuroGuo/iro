@@ -178,7 +178,7 @@ function processImage() {
     image.b = []
     
     io.emit('update', data)
-  },10000)
+  }, 10000)
 }
 
 processImage()
