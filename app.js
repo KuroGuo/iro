@@ -118,7 +118,7 @@ io.on('connection', function (socket) {
   socket.on('tucao', function (team, content) {
     if (
       tucaoTimeoutId ||
-      !content ||
+      !content || !content.trim() ||
       content.length > 20
     )
       return
