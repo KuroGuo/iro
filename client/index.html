@@ -113,9 +113,6 @@
       right: 0;
       top: 3%;
     }
-    #scores_text {
-      font-family: Menlo, Monaco, Consolas, monospace;
-    }
 
     @media screen and (max-width: 768px) {
       #scores {
@@ -285,7 +282,7 @@
   <p id="loading" v-if="!loaded">载入中</p>
   <div id="app" style="display: none;" v-show="loaded">
     <h2 id="scores">
-      <span class="scores_text" v-if="!allowUpload">{{teams.a.score}} : {{teams.b.score}}</span>
+      <span v-if="!allowUpload">{{teams.a.score}} : {{teams.b.score}}</span>
       <span v-if="allowUpload">上传图片时间</span>
     </h2>
     <div id="line"><span id="flag" v-style="
