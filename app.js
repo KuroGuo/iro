@@ -122,7 +122,7 @@ io.on('connection', function (socket) {
   socket.on('tucao', function (team, content) {
     if (
       tucaoTimeoutId ||
-      !content ||
+      !content || !content.trim() ||
       content.length > 20
     )
       return
@@ -182,7 +182,7 @@ function processImage() {
     image.b = []
     
     io.emit('update', data)
-  },10000)
+  }, 10000)
 }
 
 processImage()

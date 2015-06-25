@@ -292,14 +292,28 @@
     <div id="line"><span id="flag" v-style="
       left: (50 + (teams.b.score - teams.a.score) / 2 / onlines) + '%'
     "></span></div>
-    <div id="team_a" v-el="team_a" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('a', 'mousedown'), touchstart: tug('a', 'touchstart'), click: tug('a', 'click')" v-style="
+    <div id="team_a" v-el="team_a" v-on="
+      mousedown: preventDefault,
+      touchstart: preventDefault,
+      mousedown: tug('a', 'mousedown'),
+      touchstart: tug('a', 'touchstart'),
+      click: tug('a', 'click'),
+      contextmenu: oncontextmenu
+    " v-style="
       transform: 'translate(-50%, 50%) scale(' + (0.5 + teams.a.power / 600) + ')',
       background-image: teams.a.image ? 'url(' + teams.a.image + ')' : 'none',
       background-color: teams.a.image ? 'white' : 'black'
     ">
       <div id="tucao_area_a" v-el="tucao_area_a" class="tucao-area"></div>
     </div>
-    <div id="team_b" v-el="team_b" v-on="mousedown: preventDefault, touchstart: preventDefault, mousedown: tug('b', 'mousedown'), touchstart: tug('b', 'touchstart'), click: tug('b', 'click')" v-style="
+    <div id="team_b" v-el="team_b" v-on="
+      mousedown: preventDefault,
+      touchstart: preventDefault,
+      mousedown: tug('b', 'mousedown'),
+      touchstart: tug('b', 'touchstart'),
+      click: tug('b', 'click'),
+      contextmenu: oncontextmenu
+    " v-style="
       transform: 'translate(50%, 50%) scale(' + (0.5 + teams.b.power / 600) + ')',
       background-image: teams.b.image ? 'url(' + teams.b.image + ')' : 'none',
       background-color: teams.b.image ? 'white' : 'black'
@@ -367,7 +381,13 @@
         stopPropagation: function (e) {
           e.stopPropagation()
         },
-
+        oncontextmenu: function (e) {
+          var image = this.teams[this.myTeam].image
+          if (image) {
+            e.preventDefault()
+            window.open(image)
+          }
+        },
         tug: function (team, event) {
           if (!this.teams[team])
             return
