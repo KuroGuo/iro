@@ -47,12 +47,16 @@ app.put('/teams/:name/image', function (req, res, next) {
   })
   s.on('end', function () {
     var imageSrc = '/upload/' + md5.digest('hex') + path.extname(imageFile.name)
-    fs.rename(imageFile.path, __dirname + imageSrc, function (err) {
-      if (err)
-        return next(err)
-      if (image[name].indexOf(imageSrc) === -1)
-        image[name].push(imageSrc)
-      res.status(201).end()
+    fs.stat(__dirname + imageSrc, function (err) {
+      if (!err)
+        return res.status(400).end()
+      fs.rename(imageFile.path, __dirname + imageSrc, function (err) {
+        if (err)
+          return next(err)
+        if (image[name].indexOf(imageSrc) === -1)
+          image[name].push(imageSrc)
+        res.status(201).end()
+      })
     })
   })
 })
