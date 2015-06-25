@@ -89,7 +89,7 @@ io.on('connection', function (socket) {
     tugTimeoutId = setTimeout(function () {
       tugTimeoutId = null
 
-      if (!data.teams[team])
+      if (!data.teams[team] || !data.teams.a.image || !data.teams.b.image)
         return
 
       if (data.teams[team].image)
