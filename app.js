@@ -47,16 +47,16 @@ app.put('/teams/:name/image', function (req, res, next) {
   })
   s.on('end', function () {
     var imageSrc = '/upload/' + md5.digest('hex') + path.extname(imageFile.name)
-    fs.stat(__dirname + imageSrc, function (err) {
-      if (!err)
+    fs.rename(imageFile.path, __dirname + imageSrc, function (err) {
+      if (err)
+        return next(err)
+
+      if (team.image)
         return res.status(400).end()
-      fs.rename(imageFile.path, __dirname + imageSrc, function (err) {
-        if (err)
-          return next(err)
-        if (image[name].indexOf(imageSrc) === -1)
-          image[name].push(imageSrc)
-        res.status(201).end()
-      })
+
+      team.image = imageSrc
+      res.status(201).end()
+      io.emit('update', data)
     })
   })
 })
@@ -71,7 +71,6 @@ var data = {
     a: { score: 0, power: 0, image: null },
     b: { score: 0, power: 0, image: null }
   },
-  allowUpload: true
 }
 
 var updateTimeoutId
@@ -94,7 +93,7 @@ io.on('connection', function (socket) {
         return
 
       if (data.teams[team].image)
-        data.teams[team].score += 1
+        data.teams[team].score += Math.round(data.teams[team].power / 10) || 1
 
       if (Math.abs(data.teams.a.score - data.teams.b.score) > 100 * data.onlines) {
         data.teams.a.score = 0
@@ -103,8 +102,6 @@ io.on('connection', function (socket) {
         data.teams.b.score = 0
         data.teams.b.power = 0
         data.teams.b.image = null
-        data.allowUpload = true
-        processImage()
       }
 
       if (updateTimeoutId)
@@ -156,35 +153,5 @@ setInterval(function () {
 
   io.emit('update', data)
 }, 1000)
-
-var image = {
-  a: [],
-  b: []
-}
-
-function processImage() {
-  setTimeout(function () {
-    if(!image.a.length || !image.b.length)
-      return processImage()
-
-    var imageA = image.a[Math.floor(Math.random() * image.a.length)]
-    var imageB = image.b[Math.floor(Math.random() * image.b.length)]
-
-    if (imageA === imageB)
-      return processImage()
-
-    data.teams.a.image = imageA
-    data.teams.b.image = imageB
-
-    data.allowUpload = false
-
-    image.a = []
-    image.b = []
-    
-    io.emit('update', data)
-  }, 10000)
-}
-
-processImage()
 
 http.listen(1338)
