@@ -115,8 +115,14 @@ io.on('connection', function (socket) {
   })
 
   var tucaoTimeoutId
+  var tucaoCount = 0
+  var clearTucaoCountIntervalId = setInterval(function () {
+    tucaoCount = 0
+  }, 100000)
 
   socket.on('tucao', function (team, content) {
+    tucaoCount += 1    
+
     if (
       tucaoTimeoutId ||
       !content || !content.trim() ||
@@ -126,6 +132,12 @@ io.on('connection', function (socket) {
 
     tucaoTimeoutId = setTimeout(function () {
       tucaoTimeoutId = null
+
+      if (tucaoCount > 100) {
+        clearInterval(clearTucaoCountIntervalId)
+        socket.emit('tucao', team, content)
+        return
+      }
 
       io.emit('tucao', team, content)
     }, 16)
