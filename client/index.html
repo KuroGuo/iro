@@ -290,7 +290,7 @@
       <span v-if="!teams.a.image || !teams.b.image">上传图片时间</span>
     </h2>
     <div id="line"><span id="flag" v-style="
-      left: (50 + (teams.b.score - teams.a.score) / 4 / onlines) + '%'
+      left: (50 + (teams.b.score - teams.a.score) / onlines) + '%'
     "></span></div>
     <div id="team_a" v-el="team_a" v-on="
       mousedown: preventDefault,
