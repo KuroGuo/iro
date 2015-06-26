@@ -110,7 +110,7 @@ io.on('connection', function (socket) {
       updateTimeoutId = setTimeout(function () {
         updateTimeoutId = null
         io.emit('update', data)
-      }, 100)
+      }, 16)
     }, 16)
   })
 
