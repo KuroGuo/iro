@@ -95,7 +95,7 @@ io.on('connection', function (socket) {
       if (data.teams[team].image)
         data.teams[team].score += 1
 
-      if (Math.abs(data.teams.a.score - data.teams.b.score) > 100 * data.onlines) {
+      if (Math.abs(data.teams.a.score - data.teams.b.score) > 50 * data.onlines) {
         data.teams.a.score = 0
         data.teams.a.power = 0
         data.teams.a.image = null
