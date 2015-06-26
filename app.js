@@ -95,7 +95,7 @@ io.on('connection', function (socket) {
       if (data.teams[team].image)
         data.teams[team].score += 1
 
-      if (Math.abs(data.teams.a.score - data.teams.b.score) > 50 * data.onlines) {
+      if (Math.abs(data.teams.a.score - data.teams.b.score) > 100 * data.onlines) {
         data.teams.a.score = 0
         data.teams.a.power = 0
         data.teams.a.image = null
@@ -119,7 +119,7 @@ io.on('connection', function (socket) {
   var clearTucaoCountTimeoutId
 
   socket.on('tucao', function (team, content) {
-    tucaoCount += 1    
+    tucaoCount += 1
 
     if (!clearTucaoCountTimeoutId)
       clearTucaoCountTimeoutId = setTimeout(function () {
