@@ -6,15 +6,15 @@ var io = require('socket.io')(http)
 app.use(express.static('public'))
 app.use('/uploads', express.static('uploads'))
 
-require('./routers/home.io')(io.of('/'))
+require('./routers/tug-of-war.io')(io.of('/tug-of-war'))
 
 app.use(
   '/',
   function (req, res, next) {
-    res.locals.io = io.of('/')
+    res.locals.io = io.of('/tug-of-war')
     next()
   },
-  require('./routers/home')
+  require('./routers/tug-of-war')
 )
 
 app.use('/libs', require('./routers/libs'))

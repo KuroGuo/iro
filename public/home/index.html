@@ -333,7 +333,7 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="/libs/vue.js"></script>
   <script>
-    var socket = io()
+    var socket = io.connect(location.host + '/tug-of-war')
 
     var app = new Vue({
       el: document.documentElement,
