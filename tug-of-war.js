@@ -36,7 +36,12 @@ module.exports = {
             return data.teams.a.image
           },
           set image(value) {
-            if (typeof value !== 'string') return
+            if (
+              typeof value !== 'string' &&
+              value !== null
+            ) {
+              return
+            }
             data.teams.a.image = value
           }
         }
@@ -61,7 +66,12 @@ module.exports = {
             return data.teams.b.image
           },
           set image(value) {
-            if (typeof value !== 'string') return
+            if (
+              typeof value !== 'string' &&
+              value !== null
+            ) {
+              return
+            }
             data.teams.b.image = value
           }
         }
