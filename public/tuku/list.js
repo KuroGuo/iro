@@ -33,10 +33,12 @@
   function reflow() {
     var itemWidth = 300
     var itemMargin = 6
-
-    var container = document.querySelector('#image_list')
+    var itemPadding = 10
 
     var itemWidthWithMargin = itemWidth + itemMargin * 2
+    var itemWidthWithOutPadding = itemWidth - itemPadding * 2
+
+    var container = document.querySelector('#image_list')
 
     var rowItemCount
 
@@ -69,8 +71,10 @@
       imageNaturalWidth = parseFloat(item.dataset.width)
       imageNaturalHeight = parseFloat(item.dataset.height)
 
+      item.style.padding = itemPadding + 'px'
       item.style.width = itemWidth + 'px'
-      item.style.padding = '10px'
+      item.style.height = itemWidthWithOutPadding *
+        imageNaturalHeight / imageNaturalWidth + itemPadding * 2
 
       minYIndex = 0
       minY = yList[0]
@@ -88,8 +92,9 @@
         'translate(' + (x + itemMargin) + 'px,' +
         (minY + itemMargin) + 'px)'
 
-      yList[minYIndex] += itemWidth *
+      yList[minYIndex] += itemWidthWithOutPadding *
         imageNaturalHeight / imageNaturalWidth +
+        itemPadding * 2 +
         itemMargin * 2
     }
 
