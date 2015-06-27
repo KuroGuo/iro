@@ -46,6 +46,7 @@
       rowItemCount = 1
       itemWidth = window.innerWidth - itemMargin * 2
       itemWidthWithMargin = itemWidth + itemMargin * 2
+      itemWidthWithOutPadding = itemWidth - itemPadding * 2
     } else {
       rowItemCount = Math.floor(
         (window.innerWidth - 20) / itemWidthWithMargin
