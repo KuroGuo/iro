@@ -15,7 +15,7 @@ router.use(bodyParser.urlencoded({ extended: true }))
 
 router.get('/', function (req, res, next) {
   var page = Math.floor(req.query.page) || 1
-  const PAGE_SIZE = 10
+  const PAGE_SIZE = 30
 
   async.waterfall([
     function (callback) {
