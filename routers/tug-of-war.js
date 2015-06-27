@@ -1,3 +1,5 @@
+'use strict'
+
 var express = require('express')
 var router = express.Router()
 var multer = require('multer')
@@ -55,31 +57,37 @@ router.put('/teams/:name/image', function (req, res, next) {
         callback(null, md5.digest('hex'))
       })
     },
-    function (md5, callback) {
-      const FILE_NAME = `${md5}${path.extname(imageFile.name)}`
-      var imageSrc = `/uploads/${FILE_NAME}`
+    function (imageId, callback) {
+      Image.findById(imageId, 'fileName', function (err, image) {
+        if (err) return callback(err)
+        if (image) {
+          team.image = `/uploads/${image.fileName}`
+          res.sendStatus(201)
+          res.locals.io.emit('update', tugOfWar)
+          return
+        }
+        callback(null, imageId)
+      })
+    },
+    function (imageId, callback) {
+      const FILE_NAME = `${imageId}${path.extname(imageFile.name)}`
+      const IMAGE_SRC = `/uploads/${FILE_NAME}`
+
       fs.rename(
         imageFile.path,
-        path.normalize(`${__dirname}/../public${imageSrc}`),
+        path.normalize(`${__dirname}/../public${IMAGE_SRC}`),
         function (err) {
           if (err) return callback(err)
 
           if (team.image) return res.sendStatus(400)
 
-          team.image = imageSrc
+          team.image = IMAGE_SRC
           res.sendStatus(201)
           res.locals.io.emit('update', tugOfWar)
 
-          callback(null, md5, FILE_NAME)
+          callback(null, imageId, FILE_NAME)
         }
       )
-    },
-    function (imageId, fileName, callback) {
-      Image.findById(imageId, '_id', function (err, image) {
-        if (err) return log(err)
-        if (image) return
-        callback(null, imageId, fileName)
-      })
     },
     function (imageId, fileName, callback) {
       Image.findByIdAndUpdate(

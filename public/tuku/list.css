@@ -25,6 +25,7 @@ body {
 
 .image-item-img {
   width: 100%;
+  vertical-align: middle;
 }
 
 #page_nav {
