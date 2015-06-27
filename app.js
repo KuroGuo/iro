@@ -2,12 +2,18 @@ var express = require('express')
 var app = express()
 var http = require('http').Server(app)
 var io = require('socket.io')(http)
+var mongoose = require('mongoose')
+var session = require('express-session')
 
-app.use(express.static('public'))
-app.use('/uploads', express.static('uploads'))
+var config = require('./config')
+
+mongoose.connect(config.db)
+
+app.use(express.static(`${__dirname}/public`))
+
+app.use('/libs', require('./routers/libs'))
 
 require('./routers/tug-of-war.io')(io.of('/tug-of-war'))
-
 app.use(
   '/',
   function (req, res, next) {
@@ -17,10 +23,22 @@ app.use(
   require('./routers/tug-of-war')
 )
 
-app.use('/libs', require('./routers/libs'))
+app.engine('jade', require('jade').__express)
+app.set('view engine', 'jade')
+
+app.use(session({
+  secret: config.sessionSecret,
+  resave: false,
+  saveUninitialized: true
+}))
+
+app.use('/tuku', require('./routers/tuku'))
+app.use('/login', require('./routers/login'))
 
 app.use(function (req, res, next) {
   res.status(404).send('Not Found.')
 })
+
+app.use(require('./middlewares/errorhandler'))
 
 http.listen(1338)

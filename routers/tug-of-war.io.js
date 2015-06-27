@@ -1,4 +1,4 @@
-var tugOfWar = require('../tug-of-war')
+var tugOfWar = require('../models/tug-of-war')
 
 module.exports = function (io) {
   var updateTimeoutId

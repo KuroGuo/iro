@@ -1,0 +1,4 @@
+{
+  "db": "mongodb://localhost/tug-of-war",
+  "sessionSecret": "secret"
+}

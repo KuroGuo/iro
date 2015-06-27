@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Tug Of War</title>
+  <link rel="stylesheet" href="/tug-of-war/style.css">
+</head>
+<body>
+  <p id="loading" v-if="!loaded">载入中</p>
+  <div id="app" style="display: none;" v-show="loaded">
+    <h2 id="scores">
+      <span id="scores_text" v-if="teams.a.image && teams.b.image">{{teams.a.score}} : {{teams.b.score}}</span>
+      <span v-if="!teams.a.image || !teams.b.image">上传图片时间</span>
+    </h2>
+    <div id="line"><span id="flag" v-style="
+      left: (50 + (teams.b.score - teams.a.score) / onlines) + '%'
+    "></span></div>
+    <div id="team_a" v-el="team_a" v-on="
+      mousedown: preventDefault,
+      touchstart: preventDefault,
+      mousedown: tug('a', 'mousedown'),
+      touchstart: tug('a', 'touchstart'),
+      click: tug('a', 'click'),
+      contextmenu: oncontextmenu
+    " v-style="
+      transform: 'translate(-50%, 50%) scale(' + (0.5 + teams.a.power / 300) + ')',
+      background-image: teams.a.image ? 'url(' + teams.a.image + ')' : 'none',
+      background-color: teams.a.image ? 'white' : 'black'
+    ">
+      <div id="tucao_area_a" v-el="tucao_area_a" class="tucao-area"></div>
+    </div>
+    <div id="team_b" v-el="team_b" v-on="
+      mousedown: preventDefault,
+      touchstart: preventDefault,
+      mousedown: tug('b', 'mousedown'),
+      touchstart: tug('b', 'touchstart'),
+      click: tug('b', 'click'),
+      contextmenu: oncontextmenu
+    " v-style="
+      transform: 'translate(50%, 50%) scale(' + (0.5 + teams.b.power / 300) + ')',
+      background-image: teams.b.image ? 'url(' + teams.b.image + ')' : 'none',
+      background-color: teams.b.image ? 'white' : 'black'
+    ">
+      <div id="tucao_area_b" v-el="tucao_area_b" class="tucao-area"></div>
+    </div>
+    <form v-on="submit: tucaoA" id="form_tucao_a">
+      <input id="textbox_a" v-el="textbox_a" type="text" placeholder="吐槽" class="textbox-tucao">
+    </form>
+    <form v-on="submit: tucaoB" id="form_tucao_b">
+      <input id="textbox_b" v-el="textbox_b" type="text" placeholder="吐槽" class="textbox-tucao">
+    </form>
+  </div>
+  <a id="github" href="https://github.com/KuroGuo/tug-of-war" target="_blank">github</a>
+  <div id="onlines">{{onlines}} 人在线</div>
+  <a id="link_tuku" href="/tuku">图库</a>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/libs/vue.js"></script>
+  <script src="/tug-of-war/script.js"></script>
+</body>
+</html>
