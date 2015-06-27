@@ -11,7 +11,7 @@ var tugOfWar = require('../models/tug-of-war')
 var Image = require('../models/image')
 
 router.use(multer({
-  dest: './uploads/temps/',
+  dest: './public/uploads/temps/',
   limits: {
     files: 1,
     fileSize: 10 * 1024 * 1024,
