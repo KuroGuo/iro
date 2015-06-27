@@ -32,7 +32,7 @@
 
   function reflow() {
     var itemWidth = 300
-    var itemMargin = 10
+    var itemMargin = 6
 
     var container = document.querySelector('#image_list')
 
@@ -46,7 +46,7 @@
       itemWidthWithMargin = itemWidth + itemMargin * 2
     } else {
       rowItemCount = Math.floor(
-        window.innerWidth / itemWidthWithMargin
+        (window.innerWidth - 20) / itemWidthWithMargin
       )
     }
 
