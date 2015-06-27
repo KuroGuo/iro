@@ -149,7 +149,7 @@ router.get('/init', function (req, res, next) {
           height: height,
           fileName: file,
           uploadTime: new Date()
-        }).save(callback)
+        }).save(function () { callback() })
       })
     }, function (err) {
       if (err) return next(err)
