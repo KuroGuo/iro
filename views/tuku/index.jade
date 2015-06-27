@@ -1,0 +1,32 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(content='IE=edge', http-equiv='X-UA-Compatible')
+    meta(name='renderer', content='webkit')
+    meta(name='viewport', content='width=device-width,initial-scale=1,user-scalable=no')
+    meta(name='apple-mobile-web-app-capable', content='yes')
+    title 图库
+    link(rel='stylesheet', href='/tuku/list.css')
+  body(style='display: none;')
+    #image_list()
+      each image in images
+        a.image-item(
+          data-id=image.id,
+          data-width=image.width,
+          data-height=image.height,
+          target="_blank",
+          href=image.src
+        )
+          img.image-item-img(src=image.src)
+    #page_nav
+      each pageButton in pageButtons
+        a.button-page(
+          href=`/tuku?page=${pageButton.value}`,
+          class=pageButton.value === page ? 'current' : ''
+        )= pageButton.text
+    script.
+      var user = !{JSON.stringify(user || {})}
+    script(src='/tuku/list.js')
+      
+    
