@@ -73,8 +73,10 @@
 
       item.style.padding = itemPadding + 'px'
       item.style.width = itemWidth + 'px'
-      item.style.height = itemWidthWithOutPadding *
-        imageNaturalHeight / imageNaturalWidth + itemPadding * 2
+      item.style.height =
+        itemWidthWithOutPadding *
+        imageNaturalHeight / imageNaturalWidth +
+        itemPadding * 2 + 'px'
 
       minYIndex = 0
       minY = yList[0]
