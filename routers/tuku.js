@@ -6,6 +6,7 @@ var bodyParser = require('body-parser')
 var async = require('async')
 var fs = require('fs')
 var path = require('path')
+var sizeOf = require('image-size')
 
 var Image = require('../models/image')
 
@@ -123,6 +124,38 @@ router.all('/delete', function (req, res, next) {
       res.redirect('back')
     }
   )
+})
+
+router.get('/init', function (req, res, next) {
+  if (
+    !req.session ||
+    !req.session.user ||
+    req.session.user.role !== 'admin'
+  ) {
+    return res.sendStatus(403)
+  }
+
+  fs.readdir('./public/uploads/', function (err, files) {
+    if (err) throw err
+    async.each(files, function (file, callback) {
+      if (file === 'temps') return callback()
+      sizeOf('./public/uploads/' + file, function (err, dimensions) {
+        if (err) return callback()
+        var width = dimensions.width
+        var height = dimensions.height
+        new Image({
+          _id: path.basename(file, path.extname(file)),
+          width: width,
+          height: height,
+          fileName: file,
+          uploadTime: new Date()
+        }).save(callback)
+      })
+    }, function (err) {
+      if (err) return next(err)
+      res.sendStatus(200)
+    })
+  })
 })
 
 module.exports = router

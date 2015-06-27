@@ -12,6 +12,7 @@
     "body-parser": "^1.13.1",
     "express": "^4.12.4",
     "express-session": "^1.11.3",
+    "image-size": "^0.3.5",
     "jade": "^1.11.0",
     "moment": "^2.10.3",
     "mongoose": "^4.0.6",
