@@ -42,4 +42,4 @@ app.use(function (req, res, next) {
 
 app.use(require('./middlewares/errorhandler'))
 
-http.listen(1338)
+http.listen(config.port)
