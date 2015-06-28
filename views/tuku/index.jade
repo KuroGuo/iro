@@ -30,7 +30,7 @@ html
     #page_nav
       each pageButton in pageButtons
         a.button-page(
-          href=`/tuku?page=${pageButton.value}`,
+          href=`?page=${pageButton.value}`,
           class=pageButton.value === page ? 'current' : ''
         )= pageButton.text
     script.
