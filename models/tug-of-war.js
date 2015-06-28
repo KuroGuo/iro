@@ -3,7 +3,7 @@ var data = {
   teams: {
     a: { score: 0, power: 0, image: null },
     b: { score: 0, power: 0, image: null }
-  },
+  }
 }
 
 module.exports = {
