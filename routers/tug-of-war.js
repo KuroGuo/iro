@@ -61,6 +61,7 @@ router.put('/teams/:name/image', function (req, res, next) {
       Image.findById(imageId, 'fileName', function (err, image) {
         if (err) return callback(err)
         if (image) {
+          if (team.image) return res.sendStatus(400)
           team.image = `/uploads/${image.fileName}`
           res.sendStatus(201)
           res.locals.io.emit('update', tugOfWar)
