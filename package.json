@@ -1,6 +1,6 @@
 {
-  "name": "tug-of-war",
-  "version": "1.0.0",
+  "name": "iro",
+  "version": "0.2.0",
   "main": "app.js",
   "author": "Kuro",
   "scripts": {
