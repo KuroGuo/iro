@@ -44,7 +44,11 @@
 
     if (window.innerWidth - 20 < itemWidthWithMargin * 2) {
       rowItemCount = 1
-      itemWidth = window.innerWidth - 20 - itemMargin * 2
+      if (window.innerWidth > 500) {
+        itemWidth = window.innerWidth - 20 - itemMargin * 2
+      } else {
+        itemWidth = window.innerWidth - itemMargin * 2
+      }
       itemWidthWithMargin = itemWidth + itemMargin * 2
       itemWidthWithOutPadding = itemWidth - itemPadding * 2
     } else {
