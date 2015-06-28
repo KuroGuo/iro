@@ -36,7 +36,7 @@ app.use('/tuku', require('./routers/tuku'))
 app.use('/login', require('./routers/login'))
 
 app.use(function (req, res, next) {
-  res.status(404).send('Not Found.')
+  res.sendStatus(404)
 })
 
 app.use(require('./middlewares/errorhandler'))
