@@ -42,7 +42,7 @@ router.get('/today', function (req, res, next) {
     }
   }
 
-  renderList(req, res, next, selector, '-uploadTime', page)
+  renderList(req, res, next, selector, '-uploadTime', page, '今日最新')
 })
 
 router.all('/delete', function (req, res, next) {
@@ -76,7 +76,7 @@ router.all('/delete', function (req, res, next) {
   )
 })
 
-function renderList(req, res, next, selector, sort, page) {
+function renderList(req, res, next, selector, sort, page, title) {
   async.waterfall([
     function (callback) {
       Image.find(selector).count(function (err, count) {
@@ -136,6 +136,7 @@ function renderList(req, res, next, selector, sort, page) {
         .exec(function (err, images) {
           if (err) return next(err)
           res.render('tuku/index', {
+            title: title,
             user: req.session.user,
             page: page,
             pageCount: pageCount,
