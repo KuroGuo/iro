@@ -1,6 +1,4 @@
 ;(function () {
-  document.body.style.display = 'block'
-
   reflow()
 
   window.addEventListener('resize', function () {

@@ -15,7 +15,7 @@ app.use('/libs', require('./routers/libs'))
 
 require('./routers/tug-of-war.io')(io.of('/tug-of-war'))
 app.use(
-  '/',
+  '/tug',
   function (req, res, next) {
     res.locals.io = io.of('/tug-of-war')
     next()
@@ -32,7 +32,7 @@ app.use(session({
   saveUninitialized: true
 }))
 
-app.use('/tuku', require('./routers/tuku'))
+app.use('/', require('./routers/tuku'))
 app.use('/login', require('./routers/login'))
 
 app.use(function (req, res, next) {
