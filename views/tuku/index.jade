@@ -6,7 +6,7 @@ html
     meta(name='renderer', content='webkit')
     meta(name='viewport', content='width=device-width,initial-scale=1,user-scalable=no')
     meta(name='apple-mobile-web-app-capable', content='yes')
-    title iro | colorful
+    title= (title ? `${title} - ` : '') + 'iro | colorful'
     link(rel='icon', type='image/x-icon', href='http://kuro-iro.b0.upaiyun.com/images/favicon.ico')
     link(rel='stylesheet', href='/tuku/list.css')
   body
