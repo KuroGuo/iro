@@ -88,7 +88,13 @@
             if (err) return alert(err)
 
             var xhr = new XMLHttpRequest()
-            xhr.open('PUT', '/teams/' + team + '/image', true)
+            xhr.open(
+              'PUT',
+              location.pathname.replace(/\/$/, '') +
+                '/teams/' + team + '/image'
+              ,
+              true
+            )
             var formData = new FormData()
             formData.append('width', width)
             formData.append('height', height)

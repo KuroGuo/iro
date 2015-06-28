@@ -6,17 +6,17 @@ html
     meta(name='renderer', content='webkit')
     meta(name='viewport', content='width=device-width,initial-scale=1,user-scalable=no')
     meta(name='apple-mobile-web-app-capable', content='yes')
-    title 图库
+    title iro | colorful
     link(rel='icon', type='image/x-icon', href='http://kuro-iro.b0.upaiyun.com/images/favicon.ico')
     link(rel='stylesheet', href='/tuku/list.css')
-  body(style='display: none;')
+  body
     header#header
       .container
-        h1: a(href='/tuku')
+        h1: a(href='/', title='iro | colorful')
         nav#nav
           ul
-            li: a(href='/') 拔河
-    #image_list()
+            li: a(href='/tug') 拔河
+    #image_list(style='opacity: 0;')
       each image in images
         a.image-item(
           data-id=image.id,
@@ -35,5 +35,3 @@ html
     script.
       var user = !{JSON.stringify(user || {})}
     script(src='/tuku/list.js')
-      
-    

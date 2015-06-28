@@ -1,7 +1,10 @@
 ;(function () {
-  document.body.style.display = 'block'
+  var container = document.querySelector('#image_list')
+  var items = document.querySelectorAll('.image-item')
 
   reflow()
+
+  container.style.opacity = 1
 
   window.addEventListener('resize', function () {
     requestReflow()
@@ -38,30 +41,28 @@
     var itemWidthWithMargin = itemWidth + itemMargin * 2
     var itemWidthWithOutPadding = itemWidth - itemPadding * 2
 
-    var container = document.querySelector('#image_list')
-
     var rowItemCount
 
-    if (window.innerWidth - 20 < itemWidthWithMargin * 2) {
+    var windowWidth = window.innerWidth
+
+    if (windowWidth - 20 < itemWidthWithMargin * 2) {
       rowItemCount = 1
-      if (window.innerWidth > 500) {
-        itemWidth = window.innerWidth - 20 - itemMargin * 2
+      if (windowWidth > 500) {
+        itemWidth = windowWidth - 20 - itemMargin * 2
       } else {
-        itemWidth = window.innerWidth - itemMargin * 2
+        itemWidth = windowWidth - itemMargin * 2
       }
       itemWidthWithMargin = itemWidth + itemMargin * 2
       itemWidthWithOutPadding = itemWidth - itemPadding * 2
     } else {
       rowItemCount = Math.floor(
-        (window.innerWidth - 20) / itemWidthWithMargin
+        (windowWidth - 20) / itemWidthWithMargin
       )
     }
 
     var containerMaxWidth = rowItemCount * itemWidthWithMargin
 
     container.style.maxWidth = containerMaxWidth + 'px'
-
-    var items = document.querySelectorAll('.image-item')
 
     var i, j, item, imageNaturalWidth, imageNaturalHeight
     var x, yList = [], minY, minYIndex
