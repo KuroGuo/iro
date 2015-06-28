@@ -33,6 +33,7 @@ app.use(session({
 }))
 
 app.use('/', require('./routers/tuku'))
+app.use('/tuku', require('./routers/tuku'))
 app.use('/login', require('./routers/login'))
 
 app.use(function (req, res, next) {

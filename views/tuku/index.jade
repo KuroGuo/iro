@@ -16,7 +16,7 @@ html
         nav#nav
           ul
             li: a(href='/tug') 拔河
-    #image_list()
+    #image_list(style='opacity: 0;')
       each image in images
         a.image-item(
           data-id=image.id,
@@ -35,5 +35,3 @@ html
     script.
       var user = !{JSON.stringify(user || {})}
     script(src='/tuku/list.js')
-      
-    
