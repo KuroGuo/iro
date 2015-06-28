@@ -171,7 +171,7 @@
 
         var value = input.value
 
-        if (!value || value.lenght > 20)
+        if (!value || value.length > 20)
           return
 
         socket.emit('tucao', 'a', value)
