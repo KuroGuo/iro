@@ -13,9 +13,10 @@ html
     header#header
       .container
         h1: a(href='/', title='iro | colorful')
+        a#tug_link(href='/tug') 拔河
         nav#nav
           ul
-            li: a(href='/tug') 拔河
+            li: a(href='/today') 今日最新
     #image_list(style='opacity: 0;')
       each image in images
         a.image-item(
