@@ -12,13 +12,74 @@ var Image = require('../models/image')
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({ extended: true }))
 
+const PAGE_SIZE = 30
+
 router.get('/', function (req, res, next) {
   var page = Math.floor(req.query.page) || 1
-  const PAGE_SIZE = 30
 
+  renderList(req, res, next, null, 'uploadTime', page)
+})
+
+router.get('/today', function (req, res, next) {
+  var page = Math.floor(req.query.page) || 1
+
+  var start = new Date()
+  start.setHours(0)
+  start.setMinutes(0)
+  start.setSeconds(0)
+  start.setMilliseconds(0)
+
+  var end = new Date()
+  end.setHours(24)
+  end.setMinutes(0)
+  end.setSeconds(0)
+  end.setMilliseconds(0)
+
+  var selector = {
+    uploadTime: {
+      $gte: start,
+      $lt: end
+    }
+  }
+
+  renderList(req, res, next, selector, '-uploadTime', page)
+})
+
+router.all('/delete', function (req, res, next) {
+  var id = req.query.id
+
+  if (
+    !req.session ||
+    !req.session.user ||
+    req.session.user.role !== 'admin'
+  ) {
+    return res.sendStatus(403)
+  }
+
+  Image.findByIdAndRemove(
+    { _id: id },
+    { select: 'fileName' },
+    function (err, image) {
+      if (err) return next(err)
+
+      if (!image) return res.sendStatus(404)
+
+      fs.unlink(
+        path.normalize(`${__dirname}/../public/uploads/${image.fileName}`),
+        function (err) {
+          if (err) return next(err)
+        }
+      )
+
+      res.redirect('back')
+    }
+  )
+})
+
+function renderList(req, res, next, selector, sort, page) {
   async.waterfall([
     function (callback) {
-      Image.find().count(function (err, count) {
+      Image.find(selector).count(function (err, count) {
         if (err) return next(err)
         callback(null, count)
       })
@@ -67,8 +128,8 @@ router.get('/', function (req, res, next) {
       }
 
       Image
-        .find()
-        .sort('uploadTime')
+        .find(selector)
+        .sort(sort)
         .select('fileName width height')
         .skip((page - 1) * PAGE_SIZE)
         .limit(PAGE_SIZE)
@@ -92,37 +153,6 @@ router.get('/', function (req, res, next) {
         })
     }
   ])
-})
-
-router.all('/delete', function (req, res, next) {
-  var id = req.query.id
-
-  if (
-    !req.session ||
-    !req.session.user ||
-    req.session.user.role !== 'admin'
-  ) {
-    return res.sendStatus(403)
-  }
-
-  Image.findByIdAndRemove(
-    { _id: id },
-    { select: 'fileName' },
-    function (err, image) {
-      if (err) return next(err)
-
-      if (!image) return res.sendStatus(404)
-
-      fs.unlink(
-        path.normalize(`${__dirname}/../public/uploads/${image.fileName}`),
-        function (err) {
-          if (err) return next(err)
-        }
-      )
-
-      res.redirect('back')
-    }
-  )
-})
+}
 
 module.exports = router
