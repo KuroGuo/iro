@@ -4,6 +4,63 @@ body {
   text-rendering: geometricPrecision;
 }
 
+#header {
+  position: relative;
+  box-shadow: 0 1px 13px rgba(0,0,0,.2);
+  margin-bottom: 10px;
+}
+
+#header .container {
+  height: 48px;
+  position: relative;
+  margin: 0 20px;
+}
+
+#header .container h1 {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+}
+
+#header .container h1 a {
+  display: block;
+  width: 72px;
+  height: 48px;
+  font-size: 48px;
+  color: #000;
+  font-family: Italiana,"Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODciIGhlaWdodD0iMjciIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHJlY3QgeD0iMCIgeT0iMCIgcng9IjQiIHJ5PSI0IiB3aWR0aD0iMjciIGhlaWdodD0iMjciIHN0eWxlPSJmaWxsOiByZ2IoMjU1LDk1LDk1KTsgc3Ryb2tlLXdpZHRoOiAxOyIgLz4KICA8cmVjdCB4PSIzMCIgeT0iMCIgcng9IjQiIHJ5PSI0IiB3aWR0aD0iMjciIGhlaWdodD0iMjciIHN0eWxlPSJmaWxsOiByZ2IoMTY4LDIxMSwzNik7IHN0cm9rZS13aWR0aDogMTsiIC8+CiAgPHJlY3QgeD0iNjAiIHk9IjAiIHJ4PSI0IiByeT0iNCIgd2lkdGg9IjI3IiBoZWlnaHQ9IjI3IiBzdHlsZT0iZmlsbDogcmdiKDgwLDE5MiwyMzMpOyBzdHJva2Utd2lkdGg6IDE7IiAvPgo8L3N2Zz4=);
+  background-repeat: no-repeat;
+  background-size: 48px;
+  background-position: center center;
+}
+
+#header #nav {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 224px;
+  height: 48px;
+  line-height: 48px;
+  text-align: right;
+}
+
+#header #nav ul {
+  margin: 0;
+}
+
+#header #nav li {
+  display: inline-block;
+}
+
+#header #nav li a {
+  display: block;
+  padding: 0 19px;
+  text-decoration: none;
+  color: #258fb8;
+}
+
 #image_list {
   position: relative;
   margin: 0 auto;
