@@ -7,15 +7,22 @@ html
     meta(name='viewport', content='width=device-width,initial-scale=1,user-scalable=no')
     meta(name='apple-mobile-web-app-capable', content='yes')
     title 图库
+    link(rel='icon', type='image/x-icon', href='http://kuro-iro.b0.upaiyun.com/images/favicon.ico')
     link(rel='stylesheet', href='/tuku/list.css')
   body(style='display: none;')
+    header#header
+      .container
+        h1: a(href='/tuku')
+        nav#nav
+          ul
+            li: a(href='/') 拔河
     #image_list()
       each image in images
         a.image-item(
           data-id=image.id,
           data-width=image.width,
           data-height=image.height,
-          target="_blank",
+          target='_blank',
           href=image.src
         )
           img.image-item-img(src=image.src)
