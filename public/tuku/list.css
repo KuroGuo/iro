@@ -72,6 +72,7 @@ body {
   text-align: center;
   text-decoration: none;
   color: #258fb8;
+  z-index: 1;
 }
 
 #image_list {
