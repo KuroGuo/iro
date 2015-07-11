@@ -34,7 +34,8 @@
     ">
       <div id="tucao_area_a" v-el="tucao_area_a" class="tucao-area" v-on="
         mousedown: stopPropagation,
-        touchstart: stopPropagation
+        touchstart: stopPropagation,
+        contextmenu: stopPropagation
       "></div>
     </div>
     <div id="team_b" v-el="team_b" v-on="
@@ -51,7 +52,8 @@
     ">
       <div id="tucao_area_b" v-el="tucao_area_b" class="tucao-area" v-on="
         mousedown: stopPropagation,
-        touchstart: stopPropagation
+        touchstart: stopPropagation,
+        contextmenu: stopPropagation
       "></div>
     </div>
     <form v-on="submit: tucaoA" id="form_tucao_a">
