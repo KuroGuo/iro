@@ -61,37 +61,13 @@ input {
   background-position: center;
   box-shadow: 0 1px 4px #aaa;
   z-index: 2;
-  font-size: 40px;
+  font-size: 27px;
 }
 #team_a {
   left: 19%;
 }
 #team_b {
   right: 19%;
-}
-
-@media screen and (max-width: 1500px) {
-  #team_a, #team_b {
-    width: 225px;
-    height: 300px;
-    font-size: 30px;
-  }
-}
-
-@media screen and (max-width: 1000px) {
-  #team_a, #team_b {
-    width: 150px;
-    height: 200px;
-    font-size: 20px;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  #team_a, #team_b {
-    width: 75px;
-    height: 100px;
-    font-size: 12px;
-  }
 }
 
 #scores {
@@ -179,7 +155,7 @@ input {
 
 .tucao-area {
   position: absolute;
-  bottom: 10.5em;
+  bottom: 413px;
   left: -500px;
   right: -500px;
   z-index: 1;
@@ -198,6 +174,42 @@ input {
 .tip-tucao.leave {
   -webkit-animation: leave .6s both;
           animation: leave .6s both;
+}
+
+@media screen and (max-width: 1500px) {
+  #team_a, #team_b {
+    width: 225px;
+    height: 300px;
+    font-size: 25px;
+  }
+
+  .tucao-area {
+    bottom: 313px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  #team_a, #team_b {
+    width: 150px;
+    height: 200px;
+    font-size: 22px;
+  }
+  
+  .tucao-area {
+    bottom: 213px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #team_a, #team_b {
+    width: 75px;
+    height: 100px;
+    font-size: 18px;
+  }
+
+  .tucao-area {
+    bottom: 113px;
+  }
 }
 
 #onlines {
