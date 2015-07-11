@@ -17,7 +17,7 @@ const PAGE_SIZE = 30
 router.get('/', function (req, res, next) {
   var page = Math.floor(req.query.page) || 1
 
-  renderList(req, res, next, null, 'uploadTime', page)
+  renderList(req, res, next, null, '-uploadTime', page)
 })
 
 router.get('/today', function (req, res, next) {
