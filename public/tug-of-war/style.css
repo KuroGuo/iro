@@ -118,9 +118,10 @@ input {
   position: absolute;
   left: 0;
   right: 0;
-  top: -1.2em;
+  top: -1.3em;
   text-align: center;
-  font-size: 90px;
+  font-size: 70px;
+  color: #e57373;
   -webkit-animation: leave .6s both;
           animation: leave .6s both;
 }
@@ -181,6 +182,7 @@ input {
   bottom: 10.5em;
   left: -500px;
   right: -500px;
+  z-index: 1;
   -webkit-transform: translateZ(0);
           transform: translateZ(0);
 }

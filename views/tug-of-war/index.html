@@ -32,7 +32,10 @@
       background-image: teams.a.image ? 'url(' + teams.a.image + ')' : 'none',
       background-color: teams.a.image ? 'white' : 'black'
     ">
-      <div id="tucao_area_a" v-el="tucao_area_a" class="tucao-area"></div>
+      <div id="tucao_area_a" v-el="tucao_area_a" class="tucao-area" v-on="
+        mousedown: stopPropagation,
+        touchstart: stopPropagation
+      "></div>
     </div>
     <div id="team_b" v-el="team_b" v-on="
       mousedown: preventDefault,
@@ -46,7 +49,10 @@
       background-image: teams.b.image ? 'url(' + teams.b.image + ')' : 'none',
       background-color: teams.b.image ? 'white' : 'black'
     ">
-      <div id="tucao_area_b" v-el="tucao_area_b" class="tucao-area"></div>
+      <div id="tucao_area_b" v-el="tucao_area_b" class="tucao-area" v-on="
+        mousedown: stopPropagation,
+        touchstart: stopPropagation
+      "></div>
     </div>
     <form v-on="submit: tucaoA" id="form_tucao_a">
       <input id="textbox_a" v-el="textbox_a" type="text" placeholder="吐槽" class="textbox-tucao">
