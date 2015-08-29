@@ -1,10 +1,13 @@
 ;(function () {
   var container = document.querySelector('#image_list')
   var items = document.querySelectorAll('.image-item')
+  var itemsImg = document.querySelectorAll('.image-item-img')
 
   reflow()
 
   container.style.opacity = 1
+
+  loadImages()
 
   window.addEventListener('resize', function () {
     requestReflow()
@@ -16,6 +19,18 @@
       item.addEventListener('contextmenu', onContextmenu)
     }
   )
+
+  function loadImages() {
+    async.eachLimit(itemsImg, 3, function (img, callback) {
+      img.src = img.dataset.src
+      img.addEventListener('load', function () {
+        callback()
+      })
+      img.addEventListener('error', function () {
+        callback()
+      })
+    })
+  }
 
   function onContextmenu(e) {
     if (!user || user.role !== 'admin') return
