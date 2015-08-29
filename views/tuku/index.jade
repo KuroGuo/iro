@@ -25,7 +25,7 @@ html
           target='_blank',
           href=image.src
         )
-          img.image-item-img(data-src=image.src)
+          img.image-item-img(src=image.src)
     #page_nav
       each pageButton in pageButtons
         a.button-page(
@@ -33,7 +33,6 @@ html
           class=pageButton.value === page ? 'current' : ''
         )= pageButton.text
     
-    script(src='/libs/async.js')
     script.
       var user = !{JSON.stringify(user || {})}
     script(src='/tuku/list.js')

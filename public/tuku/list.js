@@ -7,8 +7,6 @@
 
   container.style.opacity = 1
 
-  loadImages()
-
   window.addEventListener('resize', function () {
     requestReflow()
   })
@@ -19,18 +17,6 @@
       item.addEventListener('contextmenu', onContextmenu)
     }
   )
-
-  function loadImages() {
-    async.eachLimit(itemsImg, 3, function (img, callback) {
-      img.src = img.dataset.src
-      img.addEventListener('load', function () {
-        callback()
-      })
-      img.addEventListener('error', function () {
-        callback()
-      })
-    })
-  }
 
   function onContextmenu(e) {
     if (!user || user.role !== 'admin') return
