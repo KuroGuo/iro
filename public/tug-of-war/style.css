@@ -59,7 +59,7 @@ input {
 
 #team_a, #team_b {
   position: absolute;
-  width: 300px;
+  width: 400px;
   height: 400px;
   border-radius: 16px;
   bottom: 38%;
@@ -187,7 +187,7 @@ input {
 
 @media screen and (max-width: 1500px) {
   #team_a, #team_b {
-    width: 225px;
+    width: 300px;
     height: 300px;
     font-size: 25px;
   }
@@ -199,7 +199,7 @@ input {
 
 @media screen and (max-width: 1000px) {
   #team_a, #team_b {
-    width: 150px;
+    width: 200px;
     height: 200px;
     font-size: 22px;
   }
@@ -211,7 +211,7 @@ input {
 
 @media screen and (max-width: 600px) {
   #team_a, #team_b {
-    width: 75px;
+    width: 100px;
     height: 100px;
     font-size: 18px;
   }
