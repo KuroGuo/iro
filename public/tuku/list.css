@@ -86,13 +86,15 @@ body {
 #image_list {
   position: relative;
   margin: 0 auto;
+  text-align: center;
 }
 
 .image-item {
-  display: block;
+  display: inline-block;
   margin: 20px;
   background-color: white;
   box-sizing: border-box;
+  max-width: 100%;
 }
 
 .image-item-img {
