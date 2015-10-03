@@ -9,6 +9,6 @@
   function onContextmenu(e) {
     if (!user || user.role !== 'admin') return
     e.preventDefault()
-    location = '/tuku/delete?id=' + e.currentTarget.dataset.id
+    window.open('/tuku/delete?id=' + e.currentTarget.dataset.id)
   }
 })()
