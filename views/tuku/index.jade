@@ -20,12 +20,14 @@ html
       each image in images
         a.image-item(
           data-id=image.id,
-          data-width=image.width,
-          data-height=image.height,
           target='_blank',
           href=image.src
         )
-          img.image-item-img(src=image.src)
+          img.image-item-img(
+            src=image.src,
+            width=image.width,
+            height=image.height
+          )
     #page_nav
       each pageButton in pageButtons
         a.button-page(
