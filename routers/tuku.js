@@ -12,7 +12,7 @@ var Image = require('../models/image')
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({ extended: true }))
 
-const PAGE_SIZE = 30
+const PAGE_SIZE = 20
 
 router.get('/', function (req, res, next) {
   var page = Math.floor(req.query.page) || 1

@@ -3,8 +3,17 @@ html, body {
 }
 
 body {
-  font-family: "Microsoft YaHei Light","Microsoft YaHei","Lantinghei SC","Hiragino Sans GB","WenQuanYi Micro Hei",sans-serif;
-  text-rendering: geometricPrecision;
+  font-family:
+    "PingFang SC",
+    "Microsoft JhengHei",
+    "Lantinghei SC",
+    "Hiragino Sans GB",
+    "WenQuanYi Micro Hei",
+    "Microsoft YaHei",
+    sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
   margin: 0;
   font-weight: 200;
 }
@@ -194,7 +203,7 @@ input {
     height: 200px;
     font-size: 22px;
   }
-  
+
   .tucao-area {
     bottom: 213px;
   }

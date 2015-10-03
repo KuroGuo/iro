@@ -1,13 +1,21 @@
 body {
   margin: 0;
-  font-family: "Microsoft YaHei Light","Microsoft YaHei","Lantinghei SC","Hiragino Sans GB","WenQuanYi Micro Hei",sans-serif;
-  text-rendering: geometricPrecision;
+  font-family:
+    "PingFang SC",
+    "Microsoft JhengHei",
+    "Lantinghei SC",
+    "Hiragino Sans GB",
+    "WenQuanYi Micro Hei",
+    "Microsoft YaHei",
+    sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
 }
 
 #header {
   position: relative;
-  box-shadow: 0 1px 13px rgba(0,0,0,.2);
-  margin-bottom: 10px;
+  border-bottom: 1px solid #eee;
 }
 
 #header .container {
@@ -81,17 +89,10 @@ body {
 }
 
 .image-item {
-  position: absolute;
-  left: 0;
-  top: 0;
-  max-width: 100%;
+  display: block;
+  margin: 20px;
   background-color: white;
-  box-shadow: none;
   box-sizing: border-box;
-}
-
-.image-item:hover {
-  box-shadow: 0 1px 10px #aaa;
 }
 
 .image-item-img {
