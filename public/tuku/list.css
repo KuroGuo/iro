@@ -90,14 +90,13 @@ body {
 
 .image-item {
   display: block;
-  margin: 3%;
+  margin: 20px;
   background-color: white;
   box-sizing: border-box;
 }
 
 .image-item-img {
   width: 100%;
-  height: auto;
   vertical-align: middle;
 }
 
