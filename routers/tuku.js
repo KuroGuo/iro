@@ -86,6 +86,7 @@ function renderList(req, res, next, selector, sort, page, title) {
       var query
 
       if (selector === 'random') {
+        res.locals.isRandom = true
         Image.find().select('_id').exec(function (err, images) {
           if (err) return next(err)
 
@@ -113,6 +114,7 @@ function renderList(req, res, next, selector, sort, page, title) {
           callback(null, query, PAGE_SIZE)
         })
       } else {
+        res.locals.isRandom = false
         Image.find(selector).count(function (err, count) {
           if (err) return next(err)
           callback(null, Image.find(selector), count)

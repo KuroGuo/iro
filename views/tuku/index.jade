@@ -28,11 +28,17 @@ html
         )
           img.image-item-img(src=image.src)
     #page_nav
-      each pageButton in pageButtons
+      if isRandom
         a.button-page(
-          href=`?page=${pageButton.value}`,
-          class=pageButton.value === page ? 'current' : ''
-        )= pageButton.text
+          href='',
+          style='width: 100px;'
+        ) 换一批
+      else
+        each pageButton in pageButtons
+          a.button-page(
+            href=`?page=${pageButton.value}`,
+            class=pageButton.value === page ? 'current' : ''
+          )= pageButton.text
     
     script.
       var user = !{JSON.stringify(user || {})}
