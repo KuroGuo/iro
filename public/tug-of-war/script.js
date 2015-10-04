@@ -10,7 +10,9 @@
       teams: {
         a: { score: null, power: null, image: null },
         b: { score: null, power: null, image: null }
-      }
+      },
+      longTugTimeout: null,
+      longTugStartTime: null
     },
     ready: function () {
       document.addEventListener('mousedown', function (e) {
@@ -72,6 +74,33 @@
         setTimeout(function () {
           this.$$['team_' + team].removeChild(tip)
         }.bind(this), 1000)
+      },
+      longTugStart: function () {
+        if (!this.longTugStartTime) {
+          this.longTugStartTime = new Date().getTime()
+        }
+
+        var requestTug = function () {
+          var now = new Date()
+
+          var timespan = now - this.longTugStartTime;
+
+          var timeout = (1000 - timespan) / 10
+
+          if (timeout < 16) timeout = 16
+
+          this.longTugTimeout = setTimeout(function () {
+            requestTug()
+            this.tug(this.myTeam)
+          }.bind(this), timeout)
+        }.bind(this)
+
+        requestTug()
+      },
+      longTugEnd: function () {
+        clearTimeout(this.longTugTimeout)
+        this.longTugTimeout = null
+        this.longTugStartTime = null
       },
       uploadImageFile: function (team) {
         if (this.teams[team].image)

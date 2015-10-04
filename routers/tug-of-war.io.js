@@ -39,7 +39,7 @@ module.exports = function (io) {
           updateTimeoutId = null
           io.emit('update', tugOfWar)
         }, 16)
-      }, 100)
+      })
     })
 
     var tucaoTimeoutId

@@ -26,6 +26,12 @@
       mousedown: tug('a', 'mousedown'),
       touchstart: tug('a', 'touchstart'),
       click: tug('a', 'click'),
+      mousedown: longTugStart,
+      mouseleave: longTugEnd,
+      mouseup: longTugEnd,
+      touchstart: longTugStart,
+      touchend: longTugEnd,
+      touchcancel: longTugEnd,
       contextmenu: oncontextmenu
     " v-style="
       transform: 'translate(-50%, 50%) scale(' + (0.7 + teams.a.power / 200) + ')',
@@ -44,6 +50,12 @@
       mousedown: tug('b', 'mousedown'),
       touchstart: tug('b', 'touchstart'),
       click: tug('b', 'click'),
+      mousedown: longTugStart,
+      mouseleave: longTugEnd,
+      mouseup: longTugEnd,
+      touchstart: longTugStart,
+      touchend: longTugEnd,
+      touchcancel: longTugEnd,
       contextmenu: oncontextmenu
     " v-style="
       transform: 'translate(50%, 50%) scale(' + (0.7 + teams.b.power / 200) + ')',
