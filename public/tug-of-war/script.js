@@ -13,13 +13,6 @@
       }
     },
     ready: function () {
-      document.addEventListener('keydown', function (e) {
-        if (e.target.tagName === 'INPUT')
-          return
-
-        this.tug(this.myTeam, 'keydown')
-      }.bind(this))
-
       document.addEventListener('mousedown', function (e) {
         if (e.target.tagName === 'INPUT')
           return
