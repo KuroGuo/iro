@@ -64,7 +64,7 @@ input {
   bottom: 38%;
   margin: auto 0;
   transition: all .6s;
-  background-size: cover;
+  background-size: auto 100%;
   background-repeat: no-repeat;
   background-position: center;
   box-shadow: 0 1px 4px #aaa;
