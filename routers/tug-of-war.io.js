@@ -23,7 +23,7 @@ module.exports = function (io) {
         if (tugOfWar.teams[team].image)
           tugOfWar.teams[team].score += 1
 
-        if (Math.abs(tugOfWar.teams.a.score - tugOfWar.teams.b.score) > 50 * tugOfWar.onlines) {
+        if (Math.abs(tugOfWar.teams.a.score - tugOfWar.teams.b.score) > 100) {
           tugOfWar.teams.a.score = 0
           tugOfWar.teams.a.power = 0
           tugOfWar.teams.a.image = null
