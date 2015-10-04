@@ -20,6 +20,10 @@ router.get('/', function (req, res, next) {
   renderList(req, res, next, null, '-uploadTime', page)
 })
 
+router.get('/random', function (req, res, next) {
+  renderList(req, res, next, 'random', null, 1, '随便看看')
+})
+
 router.get('/today', function (req, res, next) {
   var page = Math.floor(req.query.page) || 1
 
@@ -79,12 +83,43 @@ router.all('/delete', function (req, res, next) {
 function renderList(req, res, next, selector, sort, page, title) {
   async.waterfall([
     function (callback) {
-      Image.find(selector).count(function (err, count) {
-        if (err) return next(err)
-        callback(null, count)
-      })
+      var query
+
+      if (selector === 'random') {
+        Image.find().select('_id').exec(function (err, images) {
+          if (err) return next(err)
+
+          var ids = []
+
+          var i = 0, index
+
+          for (i = 0; i < PAGE_SIZE; i++) {
+            index = Math.floor(Math.random() * images.length)
+
+            var newId = images[index]._id
+
+            if (ids.some(function (id) {
+              return id === newId
+            })) {
+              i -= 1
+              continue
+            }
+
+            ids.push(newId)
+          }
+
+          var query = Image.find({ _id: { $in: ids } })
+
+          callback(null, query, PAGE_SIZE)
+        })
+      } else {
+        Image.find(selector).count(function (err, count) {
+          if (err) return next(err)
+          callback(null, Image.find(selector), count)
+        })
+      }
     },
-    function (count, callback) {
+    function (query, count, callback) {
       var pageCount = Math.max(Math.ceil(count / PAGE_SIZE), 1)
 
       if (page < 1) return res.redirect('?page=1')
@@ -127,8 +162,7 @@ function renderList(req, res, next, selector, sort, page, title) {
         })
       }
 
-      Image
-        .find(selector)
+      query
         .sort(sort)
         .select('fileName width height')
         .skip((page - 1) * PAGE_SIZE)
