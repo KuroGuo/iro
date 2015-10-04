@@ -28,7 +28,7 @@
       click: tug('a', 'click'),
       contextmenu: oncontextmenu
     " v-style="
-      transform: 'translate(-50%, 50%) scale(' + (0.7 + teams.a.power / 100) + ')',
+      transform: 'translate(-50%, 50%) scale(' + (0.7 + teams.a.power / 30) + ')',
       background-image: teams.a.image ? 'url(' + teams.a.image + ')' : 'none',
       background-color: teams.a.image ? 'white' : 'black'
     ">
@@ -46,7 +46,7 @@
       click: tug('b', 'click'),
       contextmenu: oncontextmenu
     " v-style="
-      transform: 'translate(50%, 50%) scale(' + (0.7 + teams.b.power / 100) + ')',
+      transform: 'translate(50%, 50%) scale(' + (0.7 + teams.b.power / 30) + ')',
       background-image: teams.b.image ? 'url(' + teams.b.image + ')' : 'none',
       background-color: teams.b.image ? 'white' : 'black'
     ">
